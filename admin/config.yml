@@ -1,0 +1,4273 @@
+backend:
+  name: git-gateway
+  accept_roles:
+    - admin
+    - editor
+media_folder: theme/assets/images
+public_folder: /assets/images
+collections:
+  - name: pages
+    label: Pages
+    identifier_field: title
+    extension: md
+    create: false
+    delete: false
+    slug: '{{slug}}'
+    editor:
+      preview: false
+    folder: cms/pages
+    fields:
+      - label: Title
+        name: title
+        widget: string
+      - label: Publish Date
+        name: date
+        widget: datetime
+      - label: Layout
+        widget: hidden
+        name: layout
+        default: '{{slug}}.html'
+      - &ref_0
+        label: Seo
+        name: seo
+        widget: object
+        collapsed: true
+        fields:
+          - label: Title
+            name: title
+            widget: string
+            required: false
+          - label: Description
+            name: description
+            widget: string
+            required: false
+          - label: No index
+            name: noindex
+            widget: boolean
+            default: false
+            required: false
+          - label: Open Graph Title
+            name: og:title
+            widget: string
+            required: false
+          - label: Open Graph Image
+            name: og:image
+            widget: image
+            required: false
+            media_library:
+              config:
+                multiple: false
+          - label: Twitter Title
+            name: twitter:title
+            widget: string
+            default: summary
+            required: false
+          - label: Twitter Card
+            name: twitter:card
+            widget: string
+            default: summary
+            required: false
+          - label: Twitter Site
+            name: twitter:site
+            widget: string
+            required: false
+          - label: Twitter Creator
+            name: twitter:creator
+            widget: string
+            required: false
+          - label: Additional HTML tags
+            name: additional_tags
+            widget: text
+            required: false
+  - name: project
+    label: Projects
+    folder: cms/project
+    create: true
+    identifier_field: name
+    extension: md
+    slug: '{{slug}}'
+    fields:
+      - hint: ''
+        name: title
+        label: Name
+        widget: string
+        required: true
+      - hint: ''
+        name: created-on
+        label: Created On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: updated-on
+        label: Updated On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: published-on
+        label: Published On
+        widget: datetime
+        required: false
+      - label: Credits
+        name: body
+        widget: markdown
+        required: false
+      - hint: ''
+        name: f_project-summary
+        label: Project Summary
+        widget: text
+        required: false
+      - hint: ''
+        name: f_year-2
+        label: Year
+        widget: number
+        required: false
+      - hint: ''
+        name: f_services-rendered-3
+        label: Services Rendered
+        widget: string
+        required: false
+      - hint: ''
+        name: f_project-description
+        label: Project Description
+        widget: markdown
+        required: false
+      - hint: Used on project list grid
+        name: f_main-project-image
+        label: Main Image 4x3
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: as alternative
+        name: f_main-image-4x3
+        label: Main Image 3x4
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: ''
+        name: f_color
+        label: Color
+        widget: color
+        required: false
+        enableAlpha: true
+        allowInput: true
+      - hint: ''
+        name: f_project-images
+        label: Project Images
+        widget: list
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: ''
+        name: f_featured-project
+        label: Featured Project?
+        widget: boolean
+        required: false
+      - hint: ''
+        name: f_sort-order
+        label: Sort Order
+        widget: number
+        required: false
+      - hint: ''
+        name: f_next-project
+        label: Next Project
+        widget: relation
+        required: false
+        collection: project
+        value_field: cms/project/{{slug}}.md
+        search_fields:
+          - slug
+          - name
+        display_fields:
+          - title
+        multiple: false
+      - hint: ''
+        name: f_layout
+        label: Layout
+        widget: select
+        required: false
+        options:
+          - label: "Layout 1\_"
+            value: "Layout 1\_"
+          - label: "Layout 2\_"
+            value: "Layout 2\_"
+          - label: Layout 3
+            value: Layout 3
+      - label: Tags
+        widget: hidden
+        name: tags
+        default: project
+      - label: Layout
+        widget: hidden
+        name: layout
+        default: '[project].html'
+      - label: Publish Date
+        name: date
+        widget: datetime
+      - *ref_0
+  - name: post
+    label: Blog Posts
+    folder: cms/post
+    create: true
+    identifier_field: name
+    extension: md
+    slug: '{{slug}}'
+    fields:
+      - hint: ''
+        name: title
+        label: Name
+        widget: string
+        required: true
+      - hint: ''
+        name: created-on
+        label: Created On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: updated-on
+        label: Updated On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: published-on
+        label: Published On
+        widget: datetime
+        required: false
+      - label: Post Body
+        name: body
+        widget: markdown
+        required: false
+      - hint: A summary of the blog post that appears on blog post grid
+        name: f_post-summary
+        label: Post Summary
+        widget: text
+        required: false
+      - hint: ''
+        name: f_main-image
+        label: Main Image
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: Smaller version of main image that is used on blog post grid
+        name: f_thumbnail-image
+        label: Thumbnail image
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: Order your blog post in any order you want
+        name: f_sort-order
+        label: Sort Order
+        widget: number
+        required: false
+      - hint: ''
+        name: f_category
+        label: Category
+        widget: select
+        required: false
+        options:
+          - label: Work
+            value: Work
+          - label: Exhibitions
+            value: Exhibitions
+          - label: Features
+            value: Features
+          - label: News
+            value: News
+      - hint: ''
+        name: f_layout
+        label: Layout
+        widget: select
+        required: false
+        options:
+          - label: "Layout 1\_"
+            value: "Layout 1\_"
+          - label: Layout 2
+            value: Layout 2
+      - label: Tags
+        widget: hidden
+        name: tags
+        default: post
+      - label: Layout
+        widget: hidden
+        name: layout
+        default: '[post].html'
+      - label: Publish Date
+        name: date
+        widget: datetime
+      - *ref_0
+  - label: Theme Settings
+    name: settings
+    identifier_field: title
+    extension: json
+    create: false
+    delete: false
+    slug: '{{slug}}'
+    editor:
+      preview: false
+    files:
+      - label: General
+        name: site
+        file: cms/_data/settings/site.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: General
+          - hint: Full domain url (needed for a correct sitemap file)
+            name: domain
+            label: Domain
+            widget: string
+            required: false
+          - name: favicon
+            label: Favicon
+            widget: image
+            allow_multiple: false
+            required: false
+          - name: apple_touch_icon
+            label: Apple Touch Icon
+            widget: image
+            allow_multiple: false
+            required: false
+          - name: header_additional_content
+            label: Additional Content Header
+            hint: Content here will be placed before </head> tag
+            widget: text
+            required: false
+          - name: footer_additional_content
+            label: Additional Content Footer
+            hint: Content here will be placed before </body> tag
+            widget: text
+            required: false
+          - name: images_optimization
+            label: Images Optimization
+            widget: object
+            collapsed: false
+            fields:
+              - label: Image Formats
+                name: formats
+                widget: select
+                multiple: true
+                options:
+                  - label: Avif
+                    value: avif
+                  - label: Webp
+                    value: webp
+              - label: Image Dimensions
+                name: dimensions
+                widget: select
+                multiple: true
+                options:
+                  - label: '500'
+                    value: 500
+                  - label: '800'
+                    value: 800
+                  - label: '1080'
+                    value: 1080
+                  - label: '1600'
+                    value: 1600
+                  - label: '2000'
+                    value: 2000
+                  - label: '2600'
+                    value: 2600
+      - label: Colors
+        name: colors
+        file: cms/_data/colors.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Colors
+      - label: Texts
+        name: texts
+        file: cms/_data/texts.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Texts
+          - hint: 'Original text: H, key: 48'
+            label: Text
+            name: '48'
+            widget: string
+          - hint: 'Original text: o, key: 6f'
+            label: Text
+            name: 6f
+            widget: string
+          - hint: 'Original text: m, key: 6d'
+            label: Text
+            name: 6d
+            widget: string
+          - hint: 'Original text: e, key: 65'
+            label: Text
+            name: '65'
+            widget: string
+          - hint: 'Original text: A, key: 41'
+            label: Text
+            name: '41'
+            widget: string
+          - hint: 'Original text: b, key: 62'
+            label: Text
+            name: '62'
+            widget: string
+          - hint: 'Original text: u, key: 75'
+            label: Text
+            name: '75'
+            widget: string
+          - hint: 'Original text: t, key: 74'
+            label: Text
+            name: '74'
+            widget: string
+          - hint: 'Original text: a, key: 61'
+            label: Text
+            name: '61'
+            widget: string
+          - hint: 'Original text: w, key: 77'
+            label: Text
+            name: '77'
+            widget: string
+          - hint: 'Original text: r, key: 72'
+            label: Text
+            name: '72'
+            widget: string
+          - hint: 'Original text: k, key: 6b'
+            label: Text
+            name: 6b
+            widget: string
+          - hint: 'Original text: s, key: 73'
+            label: Text
+            name: '73'
+            widget: string
+          - hint: 'Original text: l, key: 6c'
+            label: Text
+            name: 6c
+            widget: string
+          - hint: 'Original text: g, key: 67'
+            label: Text
+            name: '67'
+            widget: string
+          - hint: 'Original text: B, key: 42'
+            label: Text
+            name: '42'
+            widget: string
+          - hint: 'Original text: C, key: 43'
+            label: Text
+            name: '43'
+            widget: string
+          - hint: 'Original text: n, key: 6e'
+            label: Text
+            name: 6e
+            widget: string
+          - hint: 'Original text: c, key: 63'
+            label: Text
+            name: '63'
+            widget: string
+          - hint: 'Original text: Berlin, Germany, key: -63b165e3'
+            label: Text
+            name: '-63b165e3'
+            widget: string
+          - hint: 'Original text: Instagram, key: 792b2792'
+            label: Text
+            name: 792b2792
+            widget: string
+          - hint: 'Original text: Linkedin, key: 4b0ff51e'
+            label: Text
+            name: 4b0ff51e
+            widget: string
+          - hint: 'Original text: Technical, key: -30f4a0c3'
+            label: Text
+            name: '-30f4a0c3'
+            widget: string
+          - hint: 'Original text: COPYWRITER, key: 23db1428'
+            label: Text
+            name: 23db1428
+            widget: string
+          - hint: >-
+              Original text: Interaction Designer in London. Explore my recent
+              work below., key: 538bef30
+            label: Text
+            name: 538bef30
+            widget: string
+          - hint: 'Original text: PROJECTS , key: 70c206e6'
+            label: Text
+            name: 70c206e6
+            widget: string
+          - hint: "Original text: No items found. Go back\_, key: -3702ed2a"
+            label: Text
+            name: '-3702ed2a'
+            widget: string
+          - hint: 'Original text: Home, key: 2268ff'
+            label: Text
+            name: 2268ff
+            widget: string
+          - hint: 'Original text: ., key: 2e'
+            label: Text
+            name: 2e
+            widget: string
+          - hint: 'Original text: Portfolio, key: -45b0dad8'
+            label: Text
+            name: '-45b0dad8'
+            widget: string
+          - hint: 'Original text: tour, key: 366a58'
+            label: Text
+            name: 366a58
+            widget: string
+          - hint: 'Original text: My, key: 9cc'
+            label: Text
+            name: 9cc
+            widget: string
+          - hint: 'Original text: Profile, key: 50c72189'
+            label: Text
+            name: 50c72189
+            widget: string
+          - hint: 'Original text: Technical , key: 12608883'
+            label: Text
+            name: '12608883'
+            widget: string
+          - hint: 'Original text: articles, key: -493f2dc3'
+            label: Text
+            name: '-493f2dc3'
+            widget: string
+          - hint: 'Original text: Will Web 3.0 be decentralised? , key: 26a83de6'
+            label: Text
+            name: 26a83de6
+            widget: string
+          - hint: 'Original text: Zero-trust Networking?, key: -5adb29e2'
+            label: Text
+            name: '-5adb29e2'
+            widget: string
+          - hint: >-
+              Original text: Data warehouse transformation in the food sector,
+              key: 5ba97c42
+            label: Text
+            name: 5ba97c42
+            widget: string
+          - hint: 'Original text: ENDORSEMENTS, key: -3ee11fb'
+            label: Text
+            name: '-3ee11fb'
+            widget: string
+          - hint: >-
+              Original text: "Murph boiled down 10 years of work experience into
+              a terrific profile piece" , key: -31b33eb6
+            label: Text
+            name: '-31b33eb6'
+            widget: string
+          - hint: "Original text: DAVID\_UYTTERHAGEN\_, key: -46b13a3a"
+            label: Text
+            name: '-46b13a3a'
+            widget: string
+          - hint: 'Original text: Investor, key: 294468b8'
+            label: Text
+            name: 294468b8
+            widget: string
+          - hint: >-
+              Original text: "Working with Murphy is always a pleasure, and he
+              writes killer copy" , key: -1274e545
+            label: Text
+            name: '-1274e545'
+            widget: string
+          - hint: "Original text: TIM\_RENDERS\_, key: 3184d5eb"
+            label: Text
+            name: 3184d5eb
+            widget: string
+          - hint: 'Original text: Agency Owner, key: 5a92aed8'
+            label: Text
+            name: 5a92aed8
+            widget: string
+          - hint: >-
+              Original text: "Murphy is from Texas but don't hold it against
+              him!" , key: -2b23b4bd
+            label: Text
+            name: '-2b23b4bd'
+            widget: string
+          - hint: "Original text: ARMAND\_LIDTKE, key: 2fff132c"
+            label: Text
+            name: 2fff132c
+            widget: string
+          - hint: 'Original text: Creative Director, key: 70b69cdd'
+            label: Text
+            name: 70b69cdd
+            widget: string
+          - hint: "Original text: My website is glossy, I'm not :)\_, key: -217cd0ad"
+            label: Text
+            name: '-217cd0ad'
+            widget: string
+          - hint: 'Original text: Contact, key: -64104400'
+            label: Text
+            name: '-64104400'
+            widget: string
+          - hint: >-
+              Original text: Thank you! Your submission has been received!, key:
+              5a0ea5a1
+            label: Text
+            name: 5a0ea5a1
+            widget: string
+          - hint: >-
+              Original text: Oops! Something went wrong while submitting the
+              form., key: -7c112e99
+            label: Text
+            name: '-7c112e99'
+            widget: string
+          - hint: 'Original text: •, key: 2022'
+            label: Text
+            name: '2022'
+            widget: string
+          - hint: 'Original text: Naomi Wilson, key: -5da9aae0'
+            label: Text
+            name: '-5da9aae0'
+            widget: string
+          - hint: "Original text: Hand\_Made by , key: b1ebe2f"
+            label: Text
+            name: b1ebe2f
+            widget: string
+          - hint: 'Original text: Alan Murphy, key: -2b70bb01'
+            label: Text
+            name: '-2b70bb01'
+            widget: string
+          - hint: "Original text: ©2022. All Rights Reserved. Please reach out to\_, key: 46d45b5b"
+            label: Text
+            name: 46d45b5b
+            widget: string
+          - hint: 'Original text: murphy@pbranding.de, key: 41691e0d'
+            label: Text
+            name: 41691e0d
+            widget: string
+          - hint: 'Original text: +49 152 5900 6920, key: -75503405'
+            label: Text
+            name: '-75503405'
+            widget: string
+          - hint: 'Original text: Imprint, key: -29f92c17'
+            label: Text
+            name: '-29f92c17'
+            widget: string
+          - hint: 'Original text: Protected Page, key: -11d4bbff'
+            label: Text
+            name: '-11d4bbff'
+            widget: string
+          - hint: >-
+              Original text: Incorrect password. Please try again., key:
+              -f5c4b5f
+            label: Text
+            name: '-f5c4b5f'
+            widget: string
+          - hint: 'Original text: 404, key: c938'
+            label: Text
+            name: c938
+            widget: string
+          - hint: 'Original text: Sorry!!!, key: 66dbaca4'
+            label: Text
+            name: 66dbaca4
+            widget: string
+          - hint: "Original text: :(\_, key: df32"
+            label: Text
+            name: df32
+            widget: string
+          - hint: >-
+              Original text: Please click the button to return to the site.,
+              key: 70853c4f
+            label: Text
+            name: 70853c4f
+            widget: string
+          - hint: 'Original text: Click Here, key: 44f77fc8'
+            label: Text
+            name: 44f77fc8
+            widget: string
+          - hint: >-
+              Original text: Naomi is a multidisciplinary Designer, currently
+              working at Fouroom Inc. and specializing in brand identities,
+              editorial design and web. She creates design for, key: -2ccb3d34
+            label: Text
+            name: '-2ccb3d34'
+            widget: text
+          - hint: 'Original text: +44 582 304 5923, key: 35d2de14'
+            label: Text
+            name: 35d2de14
+            widget: string
+          - hint: 'Original text: studio@naomi.com, key: -3b3339f'
+            label: Text
+            name: '-3b3339f'
+            widget: string
+          - hint: 'Original text: 222-3333 Dummy Road, key: -415b12a3'
+            label: Text
+            name: '-415b12a3'
+            widget: string
+          - hint: 'Original text: City E3 4PB, key: -78317d37'
+            label: Text
+            name: '-78317d37'
+            widget: string
+          - hint: >-
+              Original text: brands of all shapes and sizes through Branding,
+              Illustration and Art Direction., key: 380043ea
+            label: Text
+            name: 380043ea
+            widget: string
+          - hint: 'Original text: Manifesto, key: 68ceb800'
+            label: Text
+            name: 68ceb800
+            widget: string
+          - hint: >-
+              Original text: Naomi is a graphic designer, currently working at
+              Fouroom in London. She works independently for a variety of
+              clients in Fashion, Beauty, Culture and Tech, she creates design
+              for brands of all shapes and sizes through Branding, Illustration
+              and Art Direction. Lorem ipsum dolor sit amet, consectetur
+              adipiscing elit libero vitae eratenim in elementum. , key:
+              -694414a2
+            label: Text
+            name: '-694414a2'
+            widget: text
+          - hint: >-
+              Original text: Naomi is a graphic designer, currently working at
+              Fouroom in London. She works independently for a variety of
+              clients in Fashion, Beauty, Culture and Tech, she creates design
+              for brands of all shapes and sizes through Branding, Illustration
+              and Art Direction. Originally from Finland, Naomi Wilson studied
+              graphic design and illustration at Hyper Island in Stockholm. She
+              has been nominated for mi quis viverra ornare, eros dolor interdum
+              nulla, and has given talks at nunc ut sem vitae risus tristique
+              posuere across the United States and Europe., key: 72f58d57
+            label: Text
+            name: 72f58d57
+            widget: text
+          - hint: 'Original text: Specializing in brand identities,, key: -362cd87c'
+            label: Text
+            name: '-362cd87c'
+            widget: string
+          - hint: 'Original text: editorial design and typography., key: 468e442d'
+            label: Text
+            name: 468e442d
+            widget: string
+          - hint: 'Original text: Interactive, key: -2eab893e'
+            label: Text
+            name: '-2eab893e'
+            widget: string
+          - hint: 'Original text: Designer, key: 40dabb0b'
+            label: Text
+            name: 40dabb0b
+            widget: string
+          - hint: 'Original text: and, key: 179d7'
+            label: Text
+            name: 179d7
+            widget: string
+          - hint: 'Original text: Art Director, key: -71b38f17'
+            label: Text
+            name: '-71b38f17'
+            widget: string
+          - hint: 'Original text: London, uk., key: 171f772c'
+            label: Text
+            name: 171f772c
+            widget: string
+          - hint: 'Original text: Clients, key: -697be218'
+            label: Text
+            name: '-697be218'
+            widget: string
+          - hint: >-
+              Original text: At design studios she has had the opportunity to
+              work with agencies like Focus, Basic and Instrument and clients
+              like Bosch, Porsche, Facebook, ARTE and Twitter., key: -48fe8686
+            label: Text
+            name: '-48fe8686'
+            widget: text
+          - hint: 'Original text: Google, key: 7f784a59'
+            label: Text
+            name: 7f784a59
+            widget: string
+          - hint: 'Original text: USA, key: 14963'
+            label: Text
+            name: '14963'
+            widget: string
+          - hint: 'Original text: Kickstarter, key: 219fb369'
+            label: Text
+            name: 219fb369
+            widget: string
+          - hint: 'Original text: Microsoft, key: 71d450ce'
+            label: Text
+            name: 71d450ce
+            widget: string
+          - hint: 'Original text: Red Bull, key: -2e82ec7e'
+            label: Text
+            name: '-2e82ec7e'
+            widget: string
+          - hint: 'Original text: Austria, key: 3ca70f35'
+            label: Text
+            name: 3ca70f35
+            widget: string
+          - hint: 'Original text: Porsche, key: 4bd8b000'
+            label: Text
+            name: 4bd8b000
+            widget: string
+          - hint: 'Original text: USA, Germany, key: -4ea25664'
+            label: Text
+            name: '-4ea25664'
+            widget: string
+          - hint: 'Original text: Sports Illustrated, key: 65f00736'
+            label: Text
+            name: 65f00736
+            widget: string
+          - hint: 'Original text: Wacom, key: 4f79657'
+            label: Text
+            name: 4f79657
+            widget: string
+          - hint: 'Original text: Japan, key: 44093e6'
+            label: Text
+            name: '44093e6'
+            widget: string
+          - hint: 'Original text: SAS, key: 13fc5'
+            label: Text
+            name: 13fc5
+            widget: string
+          - hint: 'Original text: Sweden, key: -6ba169f4'
+            label: Text
+            name: '-6ba169f4'
+            widget: string
+          - hint: 'Original text: Electronic Arts, key: 1f1c4994'
+            label: Text
+            name: 1f1c4994
+            widget: string
+          - hint: 'Original text: Time Warner, key: 60ed6e66'
+            label: Text
+            name: 60ed6e66
+            widget: string
+          - hint: 'Original text: Nintendo, key: 1b514755'
+            label: Text
+            name: 1b514755
+            widget: string
+          - hint: 'Original text: Germany, key: 5ead6393'
+            label: Text
+            name: 5ead6393
+            widget: string
+          - hint: 'Original text: PRO7, key: 259b4a'
+            label: Text
+            name: 259b4a
+            widget: string
+          - hint: 'Original text: Netflix, key: -2eedd48e'
+            label: Text
+            name: '-2eedd48e'
+            widget: string
+          - hint: 'Original text: France, key: 7de7743b'
+            label: Text
+            name: 7de7743b
+            widget: string
+          - hint: 'Original text: ARD/ZDF, key: -1c89b80'
+            label: Text
+            name: '-1c89b80'
+            widget: string
+          - hint: 'Original text: Spotify, key: -13e98166'
+            label: Text
+            name: '-13e98166'
+            widget: string
+          - hint: 'Original text: France, Sweden, key: -1f2d4245'
+            label: Text
+            name: '-1f2d4245'
+            widget: string
+          - hint: 'Original text: BMW Group, key: -52a9a555'
+            label: Text
+            name: '-52a9a555'
+            widget: string
+          - hint: 'Original text: Apple, key: 3c8933a'
+            label: Text
+            name: 3c8933a
+            widget: string
+          - hint: 'Original text: Irland, key: -7cf5314c'
+            label: Text
+            name: '-7cf5314c'
+            widget: string
+          - hint: 'Original text: Experience, key: 71b8358a'
+            label: Text
+            name: 71b8358a
+            widget: string
+          - hint: 'Original text: Freelance, key: 5e4ad8af'
+            label: Text
+            name: 5e4ad8af
+            widget: string
+          - hint: 'Original text: January, 2021, key: 39fab93b'
+            label: Text
+            name: 39fab93b
+            widget: string
+          - hint: 'Original text: September 2018–December 2020, key: 74259ab8'
+            label: Text
+            name: 74259ab8
+            widget: string
+          - hint: 'Original text:  June 2016–August 2018, key: -5239f8f0'
+            label: Text
+            name: '-5239f8f0'
+            widget: string
+          - hint: 'Original text: Balenciaga, key: -63f518c1'
+            label: Text
+            name: '-63f518c1'
+            widget: string
+          - hint: 'Original text: April 2015–June 2016, key: -11db976'
+            label: Text
+            name: '-11db976'
+            widget: string
+          - hint: 'Original text: Explore, key: 15309273'
+            label: Text
+            name: '15309273'
+            widget: string
+          - hint: 'Original text: About #2, key: 645ef602'
+            label: Text
+            name: 645ef602
+            widget: string
+          - hint: 'Original text: About, key: 3c2336d'
+            label: Text
+            name: 3c2336d
+            widget: string
+          - hint: 'Original text: Works, key: 4fe2b62'
+            label: Text
+            name: 4fe2b62
+            widget: string
+          - hint: 'Original text: Blog, key: 1fa3c2'
+            label: Text
+            name: 1fa3c2
+            widget: string
+          - hint: "Original text: \_•\_, key: 63d5e"
+            label: Text
+            name: 63d5e
+            widget: string
+          - hint: 'Original text: Twitter, key: 2c9a4253'
+            label: Text
+            name: 2c9a4253
+            widget: string
+          - hint: 'Original text: Dribbble, key: -20e9cf80'
+            label: Text
+            name: '-20e9cf80'
+            widget: string
+          - hint: 'Original text: Buy now, key: 71bb9a1c'
+            label: Text
+            name: 71bb9a1c
+            widget: string
+          - hint: 'Original text: I Design Digital Products., key: 4ca7d937'
+            label: Text
+            name: 4ca7d937
+            widget: string
+          - hint: >-
+              Original text: Naomi is a multidisciplinary Designer, currently
+              working at Fouroom in London and specializing in brand identities,
+              editorial design and web., key: 54da0e1d
+            label: Text
+            name: 54da0e1d
+            widget: text
+          - hint: >-
+              Original text: She works independently for a variety of clients in
+              Fashion, Beauty, Culture and Tech, she creates design for brands
+              of all shapes and sizes through Branding, Illustration and Art
+              Direction., key: 24a8ce18
+            label: Text
+            name: 24a8ce18
+            widget: text
+          - hint: "Original text: Originally from Finland, Naomi Wilson studied graphic design and illustration at Hyper Island in Stockholm. She has been nominated for mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat, and has given talks at \_nunc ut sem vitae risus tristique posuere across the United States and Europe., key: -7ce05edb"
+            label: Text
+            name: '-7ce05edb'
+            widget: text
+          - hint: 'Original text: experience:, key: 61e4d410'
+            label: Text
+            name: 61e4d410
+            widget: string
+          - hint: 'Original text: Senior designer, key: 39b6bb'
+            label: Text
+            name: 39b6bb
+            widget: string
+          - hint: 'Original text: Fouroom, key: 3b045f87'
+            label: Text
+            name: 3b045f87
+            widget: string
+          - hint: 'Original text: 2020–now, key: -644d3b21'
+            label: Text
+            name: '-644d3b21'
+            widget: string
+          - hint: 'Original text: Basic, key: 3cfe40e'
+            label: Text
+            name: 3cfe40e
+            widget: string
+          - hint: 'Original text: 2018–2020, key: -4cb5da36'
+            label: Text
+            name: '-4cb5da36'
+            widget: string
+          - hint: 'Original text: Instrument, key: -3600bff9'
+            label: Text
+            name: '-3600bff9'
+            widget: string
+          - hint: 'Original text: 2017–2018, key: -4e6ab2ec'
+            label: Text
+            name: '-4e6ab2ec'
+            widget: string
+          - hint: 'Original text: Selected clients:, key: -3286d909'
+            label: Text
+            name: '-3286d909'
+            widget: string
+          - hint: 'Original text: Awards:, key: 3f11fd24'
+            label: Text
+            name: 3f11fd24
+            widget: string
+          - hint: 'Original text: FWA Site of the Day, key: -1ea60a33'
+            label: Text
+            name: '-1ea60a33'
+            widget: string
+          - hint: 'Original text: La Biosthétique, key: -3584b973'
+            label: Text
+            name: '-3584b973'
+            widget: string
+          - hint: 'Original text: 2021, key: 1774fd'
+            label: Text
+            name: 1774fd
+            widget: string
+          - hint: 'Original text: Peachy Rose, key: -6f9fbdb9'
+            label: Text
+            name: '-6f9fbdb9'
+            widget: string
+          - hint: 'Original text: Awwwards Site of the Day, key: -67bdc88d'
+            label: Text
+            name: '-67bdc88d'
+            widget: string
+          - hint: 'Original text: Awwwards Site of the day, key: -67bd506d'
+            label: Text
+            name: '-67bd506d'
+            widget: string
+          - hint: 'Original text: Fornire Parallóne, key: 61dd9ce1'
+            label: Text
+            name: 61dd9ce1
+            widget: string
+          - hint: 'Original text: 2020, key: 1774fc'
+            label: Text
+            name: 1774fc
+            widget: string
+          - hint: 'Original text: Froadmile, key: 680a6d7b'
+            label: Text
+            name: 680a6d7b
+            widget: string
+          - hint: 'Original text: Onamura, key: 144b9719'
+            label: Text
+            name: 144b9719
+            widget: string
+          - hint: 'Original text: CSS Design Awards, key: 721372db'
+            label: Text
+            name: 721372db
+            widget: string
+          - hint: >-
+              Original text: Let’s create something valuable together. To find
+              out how I can help you, call me at , key: -6d67ad17
+            label: Text
+            name: '-6d67ad17'
+            widget: string
+          - hint: 'Original text: +48 182 304 5923, key: -617c90ec'
+            label: Text
+            name: '-617c90ec'
+            widget: string
+          - hint: 'Original text:  or email , key: 646ed0c1'
+            label: Text
+            name: 646ed0c1
+            widget: string
+          - hint: 'Original text: studio@template.com, key: -5f1173c9'
+            label: Text
+            name: '-5f1173c9'
+            widget: string
+          - hint: 'Original text: Studio Profile, key: -3b7a02a1'
+            label: Text
+            name: '-3b7a02a1'
+            widget: string
+          - hint: 'Original text: All Projects, key: 24737c59'
+            label: Text
+            name: 24737c59
+            widget: string
+          - hint: 'Original text: A., key: 80d'
+            label: Text
+            name: 80d
+            widget: string
+          - hint: 'Original text: 222-333 Dummy Road, key: -1fed5280'
+            label: Text
+            name: '-1fed5280'
+            widget: string
+          - hint: 'Original text: C., key: 84b'
+            label: Text
+            name: 84b
+            widget: string
+          - hint: "Original text: Powered by\_, key: -6498b6b3"
+            label: Text
+            name: '-6498b6b3'
+            widget: string
+          - hint: 'Original text: Webflow, key: -53d3659e'
+            label: Text
+            name: '-53d3659e'
+            widget: string
+          - hint: "Original text: Made by\_, key: -5c51e42"
+            label: Text
+            name: '-5c51e42'
+            widget: string
+          - hint: 'Original text: Terms, key: 4cf5967'
+            label: Text
+            name: 4cf5967
+            widget: string
+          - hint: 'Original text: Instructions, key: 36eff9c5'
+            label: Text
+            name: 36eff9c5
+            widget: string
+          - hint: 'Original text: Style Guide, key: -7aba473'
+            label: Text
+            name: '-7aba473'
+            widget: string
+          - hint: 'Original text: Licensing, key: -38ad4b62'
+            label: Text
+            name: '-38ad4b62'
+            widget: string
+          - hint: 'Original text: Changelog, key: -31d02e8c'
+            label: Text
+            name: '-31d02e8c'
+            widget: string
+          - hint: 'Original text: About #3, key: 645ef603'
+            label: Text
+            name: 645ef603
+            widget: string
+          - hint: 'Original text: About Murphy, key: -245ea656'
+            label: Text
+            name: '-245ea656'
+            widget: string
+          - hint: 'Original text: About Naomi, key: 492b3125'
+            label: Text
+            name: 492b3125
+            widget: string
+          - hint: >-
+              Original text: Murphy is an award-winning copywriter, currently
+              living in Berlin, Germany. He specializes in exploring complex
+              topics, and synthesizing data into digestible content. He works
+              for a variety of clients: IT Consultancies, Large Corporates,
+              Advertising Agencies, and Government Institutions. He develops
+              brand experiences of all shapes and sizes through Copy and Art
+              Direction. , key: 15cf84ac
+            label: Text
+            name: 15cf84ac
+            widget: text
+          - hint: 'Original text: est. 1992, key: 71d2ccf9'
+            label: Text
+            name: 71d2ccf9
+            widget: string
+          - hint: >-
+              Original text: Murphy studied Marketing at Baylor University in
+              Waco, Texas. He worked for 3 years in a field engineering program
+              for an oil and gas company. After paying off his school debts—he
+              left for Central America to learn Spanish. Along the way, he owned
+              an Eco-Hostel in Guatemala, before settling in Berlin, Germany. He
+              believes in self-learning, and has studied aspects of programming,
+              2 foreign languages, illustration and recently finished a 6-month
+              UX design program. , key: 25bf0909
+            label: Text
+            name: 25bf0909
+            widget: text
+          - hint: >-
+              Original text: He translates all of these different experiences
+              into creating value for your businesses. , key: 6fc49d53
+            label: Text
+            name: 6fc49d53
+            widget: string
+          - hint: 'Original text: Contact info, key: 527a18ce'
+            label: Text
+            name: 527a18ce
+            widget: string
+          - hint: 'Original text: Email:, key: 7bec143e'
+            label: Text
+            name: 7bec143e
+            widget: string
+          - hint: 'Original text: Murphy@pbranding.de, key: -73e31a13'
+            label: Text
+            name: '-73e31a13'
+            widget: string
+          - hint: 'Original text: Phone:, key: -718ea354'
+            label: Text
+            name: '-718ea354'
+            widget: string
+          - hint: 'Original text: Address:, key: -44c9b91a'
+            label: Text
+            name: '-44c9b91a'
+            widget: string
+          - hint: 'Original text: An der industriebahn, key: 670f737a'
+            label: Text
+            name: 670f737a
+            widget: string
+          - hint: 'Original text: 12-16 Berlin, DE 13357, key: 605289f9'
+            label: Text
+            name: 605289f9
+            widget: string
+          - hint: 'Original text: 01, key: 601'
+            label: Text
+            name: '601'
+            widget: string
+          - hint: 'Original text: What type of projects do you take on?, key: 983ffd6'
+            label: Text
+            name: 983ffd6
+            widget: string
+          - hint: >-
+              Original text: Murphy writes compelling copy for various mediums
+              (e.g. ads, blog posts, newsletters). He conducts thorough research
+              and interviews. And enjoys working with creative professionals to
+              build marketing projects and campaigns. , key: 4b8827ea
+            label: Text
+            name: 4b8827ea
+            widget: text
+          - hint: 'Original text: 02, key: 602'
+            label: Text
+            name: '602'
+            widget: string
+          - hint: 'Original text: How do you charge for projects?, key: -7f5c6898'
+            label: Text
+            name: '-7f5c6898'
+            widget: string
+          - hint: 'Original text: He charges both daily and hourly. , key: 2d61a9ce'
+            label: Text
+            name: 2d61a9ce
+            widget: string
+          - hint: 'Original text: *65 euro per hour , key: 7b10751d'
+            label: Text
+            name: 7b10751d
+            widget: string
+          - hint: 'Original text: *500 euro per day , key: -36bc31db'
+            label: Text
+            name: '-36bc31db'
+            widget: string
+          - hint: 'Original text: 03, key: 603'
+            label: Text
+            name: '603'
+            widget: string
+          - hint: "Original text: What are you looking for?\_, key: -4aaddbfc"
+            label: Text
+            name: '-4aaddbfc'
+            widget: string
+          - hint: >-
+              Original text: Murphy is looking to work globally remote. He would
+              prefer something part-time, to not have to cancel previously
+              booked engagements. But if the right offer comes along :), he
+              will., key: 59380c27
+            label: Text
+            name: 59380c27
+            widget: text
+          - hint: 'Original text: Award, key: 3cb8a3d'
+            label: Text
+            name: 3cb8a3d
+            widget: string
+          - hint: 'Original text: Marketing Website, key: 16329861'
+            label: Text
+            name: '16329861'
+            widget: string
+          - hint: 'Original text: Css Winner award, key: -2f965987'
+            label: Text
+            name: '-2f965987'
+            widget: string
+          - hint: >-
+              Original text: https://yokush.perfectwellnessgroup.com/, key:
+              1924b505
+            label: Text
+            name: 1924b505
+            widget: string
+          - hint: 'Original text: In Press, key: -6aa4f678'
+            label: Text
+            name: '-6aa4f678'
+            widget: string
+          - hint: 'Original text: Dragos Energy Podcast, key: 65a79454'
+            label: Text
+            name: 65a79454
+            widget: string
+          - hint: 'Original text: with Cristian Dragos, key: 3e57bc3'
+            label: Text
+            name: 3e57bc3
+            widget: string
+          - hint: 'Original text: Expat Empire Podcast, key: 452f20a8'
+            label: Text
+            name: 452f20a8
+            widget: string
+          - hint: 'Original text: with David McNeill, key: -15c852a'
+            label: Text
+            name: '-15c852a'
+            widget: string
+          - hint: 'Original text: Reading, key: -5c619994'
+            label: Text
+            name: '-5c619994'
+            widget: string
+          - hint: 'Original text: Artist Showcase Factory Berlin, key: 710a7ab2'
+            label: Text
+            name: 710a7ab2
+            widget: string
+          - hint: 'Original text: R, key: 52'
+            label: Text
+            name: '52'
+            widget: string
+          - hint: 'Original text: T, key: 54'
+            label: Text
+            name: '54'
+            widget: string
+          - hint: 'Original text: I, key: 49'
+            label: Text
+            name: '49'
+            widget: string
+          - hint: 'Original text: E, key: 45'
+            label: Text
+            name: '45'
+            widget: string
+          - hint: 'Original text: S, key: 53'
+            label: Text
+            name: '53'
+            widget: string
+          - hint: 'Original text: No items found., key: 3d503d2b'
+            label: Text
+            name: 3d503d2b
+            widget: string
+          - hint: "Original text: Profile\_, key: -37e2efc9"
+            label: Text
+            name: '-37e2efc9'
+            widget: string
+          - hint: 'Original text: Features., key: 5e61c371'
+            label: Text
+            name: 5e61c371
+            widget: string
+          - hint: 'Original text: Pieces., key: 40dd2d69'
+            label: Text
+            name: 40dd2d69
+            widget: string
+          - hint: "Original text: Journal\_, key: -3af46397"
+            label: Text
+            name: '-3af46397'
+            widget: string
+          - hint: 'Original text: on design., key: -5cc2f11'
+            label: Text
+            name: '-5cc2f11'
+            widget: string
+          - hint: "Original text: \_—\_, key: 63bac"
+            label: Text
+            name: 63bac
+            widget: string
+          - hint: 'Original text: Read more, key: 31997f7f'
+            label: Text
+            name: 31997f7f
+            widget: string
+          - hint: 'Original text: Contact #1, key: 7f27408e'
+            label: Text
+            name: 7f27408e
+            widget: string
+          - hint: 'Original text: oktober 2nd, 2021, key: -5a883a6f'
+            label: Text
+            name: '-5a883a6f'
+            widget: string
+          - hint: >-
+              Original text: Dark Mode Switch Color has been changed to black.,
+              key: 46b20d70
+            label: Text
+            name: 46b20d70
+            widget: string
+          - hint: 'Original text: September, 2021, key: 6f74ac62'
+            label: Text
+            name: 6f74ac62
+            widget: string
+          - hint: 'Original text: The template has been released!, key: -8fe3c13'
+            label: Text
+            name: '-8fe3c13'
+            widget: string
+          - hint: 'Original text: Getting Started, key: 3766ef65'
+            label: Text
+            name: 3766ef65
+            widget: string
+          - hint: 'Original text: Made by, key: -6b8a7cde'
+            label: Text
+            name: '-6b8a7cde'
+            widget: string
+          - hint: 'Original text: Powered by, key: -6e99924d'
+            label: Text
+            name: '-6e99924d'
+            widget: string
+          - hint: 'Original text: G, key: 47'
+            label: Text
+            name: '47'
+            widget: string
+          - hint: "Original text: T\_, key: acc"
+            label: Text
+            name: acc
+            widget: string
+          - hint: 'Original text: i, key: 69'
+            label: Text
+            name: '69'
+            widget: string
+          - hint: "Original text: n\_, key: df2"
+            label: Text
+            name: df2
+            widget: string
+          - hint: 'Original text: h, key: 68'
+            label: Text
+            name: '68'
+            widget: string
+          - hint: "Original text: Site made by\_, key: -2c1f11c9"
+            label: Text
+            name: '-2c1f11c9'
+            widget: string
+          - hint: 'Original text: fouroom.co, key: 6b177c13'
+            label: Text
+            name: 6b177c13
+            widget: string
+          - hint: "Original text: For a CV and inquiries please reach out to\_, key: -e3b3fd5"
+            label: Text
+            name: '-e3b3fd5'
+            widget: string
+          - hint: 'Original text: hello@naomi.co, key: 59c49210'
+            label: Text
+            name: 59c49210
+            widget: string
+          - hint: 'Original text: +44 182 304 5923, key: 170c4898'
+            label: Text
+            name: 170c4898
+            widget: string
+          - hint: 'Original text: Contact #2, key: 7f27408f'
+            label: Text
+            name: 7f27408f
+            widget: string
+          - hint: 'Original text: Contact #3, key: 7f274090'
+            label: Text
+            name: 7f274090
+            widget: string
+          - hint: 'Original text: Keen to read your message!, key: 28067a45'
+            label: Text
+            name: 28067a45
+            widget: string
+          - hint: 'Original text: Newsletter, key: -47761f27'
+            label: Text
+            name: '-47761f27'
+            widget: string
+          - hint: 'Original text: Monthly musings, key: -20744a17'
+            label: Text
+            name: '-20744a17'
+            widget: string
+          - hint: 'Original text: Join the fun., key: 17ad52f4'
+            label: Text
+            name: 17ad52f4
+            widget: string
+          - hint: 'Original text: Social, key: -6c12fc73'
+            label: Text
+            name: '-6c12fc73'
+            widget: string
+          - hint: 'Original text: Explore More, key: -6d8062fe'
+            label: Text
+            name: '-6d8062fe'
+            widget: string
+          - hint: 'Original text: Year, key: 29fc5d'
+            label: Text
+            name: 29fc5d
+            widget: string
+          - hint: 'Original text: Credits, key: -5f77b386'
+            label: Text
+            name: '-5f77b386'
+            widget: string
+          - hint: 'Original text: Goals, key: 41c73a0'
+            label: Text
+            name: 41c73a0
+            widget: string
+          - hint: 'Original text: Next Project, key: 14b8baec'
+            label: Text
+            name: 14b8baec
+            widget: string
+          - hint: 'Original text: Getting started, key: -2bd1a87b'
+            label: Text
+            name: '-2bd1a87b'
+            widget: string
+          - hint: >-
+              Original text: If you are not very familiar with Webflow, we
+              highly recommend you to take the Webflow 101 Crash Course from ,
+              key: -63d27ff9
+            label: Text
+            name: '-63d27ff9'
+            widget: text
+          - hint: 'Original text: Webflow University, key: 2e81932c'
+            label: Text
+            name: 2e81932c
+            widget: string
+          - hint: >-
+              Original text: , as it will teach you all the basics to get up and
+              running., key: 37eb7d1c
+            label: Text
+            name: 37eb7d1c
+            widget: string
+          - hint: 'Original text: Dark & Light mode, key: 490ae311'
+            label: Text
+            name: 490ae311
+            widget: string
+          - hint: >-
+              Original text: Inside the "Starter" directory, you'll find two
+              pages titled "Dark Mode" and "Light Mode". This templates include
+              a navigation bar, a footer and all interactions you'll need – the
+              ideal starting point for your pages. , key: -360a204c
+            label: Text
+            name: '-360a204c'
+            widget: text
+          - hint: 'Original text: duplicate this page template, key: 66be521e'
+            label: Text
+            name: 66be521e
+            widget: string
+          - hint: >-
+              Original text: copy sections from any page, then paste them into
+              the body of your newly created page. Also you may copy sections
+              from any page listed on the main landing page., key: 64eb9c06
+            label: Text
+            name: 64eb9c06
+            widget: text
+          - hint: >-
+              Original text: The Style Guide page demonstrates the display of
+              all base elements found in this template. The Style Guide provides
+              a central location to make stylistic changes to your site., key:
+              523c2df4
+            label: Text
+            name: 523c2df4
+            widget: text
+          - hint: 'Original text: Custom Code, key: -a1752c4'
+            label: Text
+            name: '-a1752c4'
+            widget: string
+          - hint: >-
+              Original text: Inside the Project Settings, in the Custom Code tab
+              you'll notice some style code has been added to the head of each
+              page.This code is to ensure that the text rendering is smooth and
+              consistent across all browsers. It does not require any action on
+              your part., key: 19f4ce29
+            label: Text
+            name: 19f4ce29
+            widget: text
+          - hint: 'Original text: Allkind, key: 2ce49495'
+            label: Text
+            name: 2ce49495
+            widget: string
+          - hint: 'Original text: Imagery, key: -2ad19b3e'
+            label: Text
+            name: '-2ad19b3e'
+            widget: string
+          - hint: >-
+              Original text: Naomi Wilson is a photographer, director and
+              creative director based in Los Angeles. Also known as one half of
+              the photography duo LOUIS., key: 451c8a5
+            label: Text
+            name: 451c8a5
+            widget: text
+          - hint: 'Original text: THE KIND WORDS, key: -5692add4'
+            label: Text
+            name: '-5692add4'
+            widget: string
+          - hint: >-
+              Original text: Great template and custom service! I needed to make
+              some specific changes and Rustam sent me a quick step by step
+              video explaining how to make changes. Great communication and help
+              from him. Thank you., key: -7e103b07
+            label: Text
+            name: '-7e103b07'
+            widget: text
+          - hint: 'Original text: Martin G,, key: 4f5a146a'
+            label: Text
+            name: 4f5a146a
+            widget: string
+          - hint: 'Original text: Design Director, key: -3dd95c52'
+            label: Text
+            name: '-3dd95c52'
+            widget: string
+          - hint: >-
+              Original text: Best templates and support out there! Rustam is
+              always happy to help with any issues you may be having or even
+              just showing how to edit things. They provide detailed videos
+              showing how to overcome any complex matters. Would highly
+              recommend!, key: -3aeb47d3
+            label: Text
+            name: '-3aeb47d3'
+            widget: text
+          - hint: 'Original text: Tim Renders, key: -31378a2b'
+            label: Text
+            name: '-31378a2b'
+            widget: string
+          - hint: >-
+              Original text: Had some issues where my site crashed and broke,
+              reached out to Rustam to see if he could help me fix it. Even
+              though we are 12 hours apart in time, he was quick to reply and
+              helpful / willing to do what is needed to fix the issue., key:
+              694a1f94
+            label: Text
+            name: 694a1f94
+            widget: text
+          - hint: >-
+              Original text: Naomi is a multidisciplinary Designer, currently
+              working at Fouroom and specializing in brand identities, editorial
+              design and web. She creates design for brands of all shapes and
+              sizes through Branding, Illustration and Art, key: -5f86fea5
+            label: Text
+            name: '-5f86fea5'
+            widget: text
+          - hint: >-
+              Original text: Direction. She works independently for a variety of
+              clients in Fashion, Beauty, Culture and Tech, she creates design
+              for brands of all shapes and sizes through Branding, Illustration
+              , key: e2efc94
+            label: Text
+            name: e2efc94
+            widget: text
+          - hint: >-
+              Original text: Illustration and Art Direction. They provide
+              detailed videos showing how to overcome any complex matters. Would
+              highly recommend! , key: 1180fb73
+            label: Text
+            name: 1180fb73
+            widget: text
+          - hint: 'Original text: Home #2, key: -5ba700d0'
+            label: Text
+            name: '-5ba700d0'
+            widget: string
+          - hint: 'Original text: L, key: 4c'
+            label: Text
+            name: 4c
+            widget: string
+          - hint: 'Original text: W, key: 57'
+            label: Text
+            name: '57'
+            widget: string
+          - hint: 'Original text: Home #3, key: -5ba700cf'
+            label: Text
+            name: '-5ba700cf'
+            widget: string
+          - hint: 'Original text: Bringing life to ideas., key: -3b1bb29d'
+            label: Text
+            name: '-3b1bb29d'
+            widget: string
+          - hint: >-
+              Original text: We are a London based design studio specializing in
+              identity design and brand development, key: 6ce212e6
+            label: Text
+            name: 6ce212e6
+            widget: string
+          - hint: 'Original text: About #1, key: 645ef601'
+            label: Text
+            name: 645ef601
+            widget: string
+          - hint: 'Original text: UX, key: aa3'
+            label: Text
+            name: aa3
+            widget: string
+          - hint: 'Original text: ENDORSMENTS, key: -7b923060'
+            label: Text
+            name: '-7b923060'
+            widget: string
+          - hint: >-
+              Original text: "Murph boiled down 10 years of work experience into
+              a killer profile piece" , key: 27d0482d
+            label: Text
+            name: 27d0482d
+            widget: string
+          - hint: 'Original text: David Uytterhaegen, key: -49eaf93f'
+            label: Text
+            name: '-49eaf93f'
+            widget: string
+          - hint: 'Original text: investor , key: -78297178'
+            label: Text
+            name: '-78297178'
+            widget: string
+          - hint: >-
+              Original text: "Working with Murphy is always a pleasure, and he
+              writes killer copy", key: 7a9a605
+            label: Text
+            name: 7a9a605
+            widget: string
+          - hint: 'Original text: Armand Lidtke,, key: -735e3900'
+            label: Text
+            name: '-735e3900'
+            widget: string
+          - hint: 'Original text: Explore Demos, key: -430f6d1d'
+            label: Text
+            name: '-430f6d1d'
+            widget: string
+          - hint: "Original text: 01\_, key: babf"
+            label: Text
+            name: babf
+            widget: string
+          - hint: 'Original text: Home One, key: -19386c5b'
+            label: Text
+            name: '-19386c5b'
+            widget: string
+          - hint: 'Original text: Home Two, key: -19385875'
+            label: Text
+            name: '-19385875'
+            widget: string
+          - hint: 'Original text: Home Three, key: 5375371d'
+            label: Text
+            name: 5375371d
+            widget: string
+          - hint: 'Original text: Articles, key: -4564c9a3'
+            label: Text
+            name: '-4564c9a3'
+            widget: string
+          - hint: "Original text: Web 3.0—will it be Blockchain, Solid, or the Spatial Web?\_, key: 668c739"
+            label: Text
+            name: 668c739
+            widget: string
+          - hint: 'Original text: Zero-trust Networking, key: -23f68dbf'
+            label: Text
+            name: '-23f68dbf'
+            widget: string
+          - hint: "Original text: 02\_, key: bade"
+            label: Text
+            name: bade
+            widget: string
+          - hint: 'Original text: About One, key: 27807713'
+            label: Text
+            name: '27807713'
+            widget: string
+          - hint: 'Original text: About Two, key: 27808af9'
+            label: Text
+            name: 27808af9
+            widget: string
+          - hint: 'Original text: About Three, key: 4982f70b'
+            label: Text
+            name: 4982f70b
+            widget: string
+          - hint: "Original text: 03\_, key: bafd"
+            label: Text
+            name: bafd
+            widget: string
+          - hint: 'Original text: Works One, key: -469a9378'
+            label: Text
+            name: '-469a9378'
+            widget: string
+          - hint: 'Original text: Works Two, key: -469a7f92'
+            label: Text
+            name: '-469a7f92'
+            widget: string
+          - hint: 'Original text: Works Three, key: -9ff9cc0'
+            label: Text
+            name: '-9ff9cc0'
+            widget: string
+          - hint: "Original text: 04\_, key: bb1c"
+            label: Text
+            name: bb1c
+            widget: string
+          - hint: 'Original text: Blog One, key: -23ac4b18'
+            label: Text
+            name: '-23ac4b18'
+            widget: string
+          - hint: 'Original text: Blog Two, key: -23ac3732'
+            label: Text
+            name: '-23ac3732'
+            widget: string
+          - hint: 'Original text: Blog Three, key: 167e13a0'
+            label: Text
+            name: 167e13a0
+            widget: string
+          - hint: "Original text: 05\_, key: bb3b"
+            label: Text
+            name: bb3b
+            widget: string
+          - hint: 'Original text: Contact One, key: 65c17e26'
+            label: Text
+            name: 65c17e26
+            widget: string
+          - hint: 'Original text: Contact Two, key: 65c1920c'
+            label: Text
+            name: 65c1920c
+            widget: string
+          - hint: 'Original text: Contact Three, key: -4617aa2'
+            label: Text
+            name: '-4617aa2'
+            widget: string
+          - hint: 'Original text: Lisences, key: 5347b652'
+            label: Text
+            name: 5347b652
+            widget: string
+          - hint: >-
+              Original text: All graphical assets in this website can only be
+              used with the written consent of Alan Murphy. If you'd like to use
+              a specific asset, please check the license below., key: -2db975a5
+            label: Text
+            name: '-2db975a5'
+            widget: text
+          - hint: 'Original text: Photography, key: -38f29e83'
+            label: Text
+            name: '-38f29e83'
+            widget: string
+          - hint: 'Original text: All photography by Alexander Main. , key: 793f606c'
+            label: Text
+            name: 793f606c
+            widget: string
+          - hint: 'Original text: https://www.alexandermain.com/, key: 7ea1683'
+            label: Text
+            name: 7ea1683
+            widget: string
+          - hint: 'Original text: Icons, key: 43362fa'
+            label: Text
+            name: 43362fa
+            widget: string
+          - hint: 'Original text: Created by Alan Murphy. , key: -34ec8ac0'
+            label: Text
+            name: '-34ec8ac0'
+            widget: string
+          - hint: 'Original text: Typography, key: 5500514f'
+            label: Text
+            name: 5500514f
+            widget: string
+          - hint: >-
+              Original text: The typefaces Wremena and Rosseta are available to
+              use freely under the , key: 4c9a1455
+            label: Text
+            name: 4c9a1455
+            widget: string
+          - hint: 'Original text: Typefaces, key: -693f0564'
+            label: Text
+            name: '-693f0564'
+            widget: string
+          - hint: 'Original text:  and , key: 1f0b149'
+            label: Text
+            name: 1f0b149
+            widget: string
+          - hint: 'Original text: Fontesk, key: 3aa27eae'
+            label: Text
+            name: 3aa27eae
+            widget: string
+          - hint: 'Original text:  license., key: -43521bd3'
+            label: Text
+            name: '-43521bd3'
+            widget: string
+          - hint: 'Original text: Illustrations, key: -603e8afd'
+            label: Text
+            name: '-603e8afd'
+            widget: string
+          - hint: 'Original text: Created by Alan Murphy., key: 381966e0'
+            label: Text
+            name: '381966e0'
+            widget: string
+          - hint: 'Original text: GDPR Datenschutzerklärung, key: 5e8c5050'
+            label: Text
+            name: 5e8c5050
+            widget: string
+          - hint: 'Original text: ‍, key: 200d'
+            label: Text
+            name: 200d
+            widget: string
+          - hint: >-
+              Original text: Diese Datenschutzerklärung klärt Sie über die Art,
+              den Umfang und Zweck der Verarbeitung von personenbezogenen Daten
+              (nachfolgend kurz „Daten“) innerhalb unseres Onlineangebotes und
+              der mit ihm verbundenen Webseiten, Funktionen und Inhalte sowie
+              externen Onlinepräsenzen, wie z.B. unser Social Media Profile auf
+              (nachfolgend gemeinsam bezeichnet als „Onlineangebot“). Im
+              Hinblick auf die verwendeten Begrifflichkeiten, wie z.B.
+              „Verarbeitung“ oder „Verantwortlicher“ verweisen wir auf die
+              Definitionen im Art. 4 der Datenschutzgrundverordnung (DSGVO).,
+              key: 7c49a039
+            label: Text
+            name: 7c49a039
+            widget: text
+          - hint: >-
+              Original text: Arten der verarbeiteten Daten:- Bestandsdaten
+              (z.B., Namen, Adressen)., key: -37a3a20b
+            label: Text
+            name: '-37a3a20b'
+            widget: string
+          - hint: >-
+              Original text: - Kontaktdaten (z.B., E-Mail, Telefonnummern).,
+              key: -4f8e91a
+            label: Text
+            name: '-4f8e91a'
+            widget: string
+          - hint: >-
+              Original text: - Inhaltsdaten (z.B., Texteingaben, Fotografien,
+              Videos)., key: -103e7c1b
+            label: Text
+            name: '-103e7c1b'
+            widget: string
+          - hint: >-
+              Original text: - Nutzungsdaten (z.B., besuchte Webseiten,
+              Interesse an Inhalten, Zugriffszeiten)., key: -68535c7a
+            label: Text
+            name: '-68535c7a'
+            widget: string
+          - hint: >-
+              Original text: - Meta-/Kommunikationsdaten (z.B.,
+              Geräte-Informationen, IP-Adressen)., key: 3de34a28
+            label: Text
+            name: 3de34a28
+            widget: string
+          - hint: >-
+              Original text: Kategorien betroffener PersonenBesucher und Nutzer
+              des Onlineangebotes (Nachfolgend bezeichnen wir die betroffenen
+              Personen zusammenfassend auch als „Nutzer“)., key: 3ee252de
+            label: Text
+            name: 3ee252de
+            widget: text
+          - hint: >-
+              Original text: Zweck der Verarbeitung- Zurverfügungstellung des
+              Onlineangebotes, seiner Funktionen und Inhalte., key: -1b30cc73
+            label: Text
+            name: '-1b30cc73'
+            widget: text
+          - hint: >-
+              Original text: - Beantwortung von Kontaktanfragen und
+              Kommunikation mit Nutzern., key: 4e940761
+            label: Text
+            name: '4e940761'
+            widget: string
+          - hint: 'Original text: - Sicherheitsmaßnahmen., key: -7e210fae'
+            label: Text
+            name: '-7e210fae'
+            widget: string
+          - hint: 'Original text: - Reichweitenmessung/Marketing, key: 111709e3'
+            label: Text
+            name: '111709e3'
+            widget: string
+          - hint: >-
+              Original text: Verwendete Begrifflichkeiten„Personenbezogene
+              Daten“ sind alle Informationen, die sich auf eine identifizierte
+              oder identifizierbare natürliche Person (im Folgenden „betroffene
+              Person“) beziehen; als identifizierbar wird eine natürliche Person
+              angesehen, die direkt oder indirekt, insbesondere mittels
+              Zuordnung zu einer Kennung wie einem Namen, zu einer Kennnummer,
+              zu Standortdaten, zu einer Online-Kennung (z.B. Cookie) oder zu
+              einem oder mehreren besonderen Merkmalen identifiziert werden
+              kann, die Ausdruck der physischen, physiologischen, genetischen,
+              psychischen, wirtschaftlichen, kulturellen oder sozialen Identität
+              dieser natürlichen Person sind., key: 4fb5205b
+            label: Text
+            name: 4fb5205b
+            widget: text
+          - hint: >-
+              Original text: „Verarbeitung“ ist jeder mit oder ohne Hilfe
+              automatisierter Verfahren ausgeführte Vorgang oder jede solche
+              Vorgangsreihe im Zusammenhang mit personenbezogenen Daten. Der
+              Begriff reicht weit und umfasst praktisch jeden Umgang mit Daten.,
+              key: -47e1f2f0
+            label: Text
+            name: '-47e1f2f0'
+            widget: text
+          - hint: >-
+              Original text: „Pseudonymisierung“ die Verarbeitung
+              personenbezogener Daten in einer Weise, dass die personenbezogenen
+              Daten ohne Hinzuziehung zusätzlicher Informationen nicht mehr
+              einer spezifischen betroffenen Person zugeordnet werden können,
+              sofern diese zusätzlichen Informationen gesondert aufbewahrt
+              werden und technischen und organisatorischen Maßnahmen
+              unterliegen, die gewährleisten, dass die personenbezogenen Daten
+              nicht einer identifizierten oder identifizierbaren natürlichen
+              Person zugewiesen werden., key: -209780e7
+            label: Text
+            name: '-209780e7'
+            widget: text
+          - hint: >-
+              Original text: „Profiling“ jede Art der automatisierten
+              Verarbeitung personenbezogener Daten, die darin besteht, dass
+              diese personenbezogenen Daten verwendet werden, um bestimmte
+              persönliche Aspekte, die sich auf eine natürliche Person beziehen,
+              zu bewerten, insbesondere um Aspekte bezüglich Arbeitsleistung,
+              wirtschaftliche Lage, Gesundheit, persönliche Vorlieben,
+              Interessen, Zuverlässigkeit, Verhalten, Aufenthaltsort oder
+              Ortswechsel dieser natürlichen Person zu analysieren oder
+              vorherzusagen., key: -50b4fc7b
+            label: Text
+            name: '-50b4fc7b'
+            widget: text
+          - hint: >-
+              Original text: Als „Verantwortlicher“ wird die natürliche oder
+              juristische Person, Behörde, Einrichtung oder andere Stelle, die
+              allein oder gemeinsam mit anderen über die Zwecke und Mittel der
+              Verarbeitung von personenbezogenen Daten entscheidet, bezeichnet.,
+              key: -3f6c5e1d
+            label: Text
+            name: '-3f6c5e1d'
+            widget: text
+          - hint: >-
+              Original text: „Auftragsverarbeiter“ eine natürliche oder
+              juristische Person, Behörde, Einrichtung oder andere Stelle, die
+              personenbezogene Daten im Auftrag des Verantwortlichen
+              verarbeitet., key: 7208ba76
+            label: Text
+            name: 7208ba76
+            widget: text
+          - hint: >-
+              Original text: Maßgebliche RechtsgrundlagenNach Maßgabe des Art.
+              13 DSGVO teilen wir Ihnen die Rechtsgrundlagen unserer
+              Datenverarbeitungen mit. Sofern die Rechtsgrundlage in der
+              Datenschutzerklärung nicht genannt wird, gilt Folgendes: Die
+              Rechtsgrundlage für die Einholung von Einwilligungen ist Art. 6
+              Abs. 1 lit. a und Art. 7 DSGVO, die Rechtsgrundlage für die
+              Verarbeitung zur Erfüllung unserer Leistungen und Durchführung
+              vertraglicher Maßnahmen sowie Beantwortung von Anfragen ist Art. 6
+              Abs. 1 lit. b DSGVO, die Rechtsgrundlage für die Verarbeitung zur
+              Erfüllung unserer rechtlichen Verpflichtungen ist Art. 6 Abs. 1
+              lit. c DSGVO, und die Rechtsgrundlage für die Verarbeitung zur
+              Wahrung unserer berechtigten Interessen ist Art. 6 Abs. 1 lit. f
+              DSGVO. Für den Fall, dass lebenswichtige Interessen der
+              betroffenen Person oder einer anderen natürlichen Person eine
+              Verarbeitung personenbezogener Daten erforderlich machen, dient
+              Art. 6 Abs. 1 lit. d DSGVO als
+              Rechtsgrundlage.SicherheitsmaßnahmenWir treffen nach Maßgabe des
+              Art. 32 DSGVO unter Berücksichtigung des Stands der Technik, der
+              Implementierungskosten und der Art, des Umfangs, der Umstände und
+              der Zwecke der Verarbeitung sowie der unterschiedlichen
+              Eintrittswahrscheinlichkeit und Schwere des Risikos für die Rechte
+              und Freiheiten natürlicher Personen, geeignete technische und
+              organisatorische Maßnahmen, um ein dem Risiko angemessenes
+              Schutzniveau zu gewährleisten., key: -5de5acb0
+            label: Text
+            name: '-5de5acb0'
+            widget: text
+          - hint: >-
+              Original text: Zu den Maßnahmen gehören insbesondere die Sicherung
+              der Vertraulichkeit, Integrität und Verfügbarkeit von Daten durch
+              Kontrolle des physischen Zugangs zu den Daten, als auch des sie
+              betreffenden Zugriffs, der Eingabe, Weitergabe, der Sicherung der
+              Verfügbarkeit und ihrer Trennung. Des Weiteren haben wir Verfahren
+              eingerichtet, die eine Wahrnehmung von Betroffenenrechten,
+              Löschung von Daten und Reaktion auf Gefährdung der Daten
+              gewährleisten. Ferner berücksichtigen wir den Schutz
+              personenbezogener Daten bereits bei der Entwicklung, bzw. Auswahl
+              von Hardware, Software sowie Verfahren, entsprechend dem Prinzip
+              des Datenschutzes durch Technikgestaltung und durch
+              datenschutzfreundliche Voreinstellungen (Art. 25 DSGVO)., key:
+              -663072fd
+            label: Text
+            name: '-663072fd'
+            widget: text
+          - hint: >-
+              Original text: Zusammenarbeit mit Auftragsverarbeitern und
+              DrittenSofern wir im Rahmen unserer Verarbeitung Daten gegenüber
+              anderen Personen und Unternehmen (Auftragsverarbeitern oder
+              Dritten) offenbaren, sie an diese übermitteln oder ihnen sonst
+              Zugriff auf die Daten gewähren, erfolgt dies nur auf Grundlage
+              einer gesetzlichen Erlaubnis (z.B. wenn eine Übermittlung der
+              Daten an Dritte, wie an Zahlungsdienstleister, gem. Art. 6 Abs. 1
+              lit. b DSGVO zur Vertragserfüllung erforderlich ist), Sie
+              eingewilligt haben, eine rechtliche Verpflichtung dies vorsieht
+              oder auf Grundlage unserer berechtigten Interessen (z.B. beim
+              Einsatz von Beauftragten, Webhostern, etc.)., key: -44d599c4
+            label: Text
+            name: '-44d599c4'
+            widget: text
+          - hint: >-
+              Original text: Sofern wir Dritte mit der Verarbeitung von Daten
+              auf Grundlage eines sog. „Auftragsverarbeitungsvertrages“
+              beauftragen, geschieht dies auf Grundlage des Art. 28
+              DSGVO.Übermittlungen in DrittländerSofern wir Daten in einem
+              Drittland (d.h. außerhalb der Europäischen Union (EU) oder des
+              Europäischen Wirtschaftsraums (EWR)) verarbeiten oder dies im
+              Rahmen der Inanspruchnahme von Diensten Dritter oder Offenlegung,
+              bzw. Übermittlung von Daten an Dritte geschieht, erfolgt dies nur,
+              wenn es zur Erfüllung unserer (vor)vertraglichen Pflichten, auf
+              Grundlage Ihrer Einwilligung, aufgrund einer rechtlichen
+              Verpflichtung oder auf Grundlage unserer berechtigten Interessen
+              geschieht. Vorbehaltlich gesetzlicher oder vertraglicher
+              Erlaubnisse, verarbeiten oder lassen wir die Daten in einem
+              Drittland nur beim Vorliegen der besonderen Voraussetzungen der
+              Art. 44 ff. DSGVO verarbeiten. D.h. die Verarbeitung erfolgt z.B.
+              auf Grundlage besonderer Garantien, wie der offiziell anerkannten
+              Feststellung eines der EU entsprechenden Datenschutzniveaus (z.B.
+              für die USA durch das „Privacy Shield“) oder Beachtung offiziell
+              anerkannter spezieller vertraglicher Verpflichtungen (so genannte
+              „Standardvertragsklauseln“).Rechte der betroffenen PersonenSie
+              haben das Recht, eine Bestätigung darüber zu verlangen, ob
+              betreffende Daten verarbeitet werden und auf Auskunft über diese
+              Daten sowie auf weitere Informationen und Kopie der Daten
+              entsprechend Art. 15 DSGVO., key: -1cac7d5a
+            label: Text
+            name: '-1cac7d5a'
+            widget: text
+          - hint: >-
+              Original text: Sie haben entsprechend. Art. 16 DSGVO das Recht,
+              die Vervollständigung der Sie betreffenden Daten oder die
+              Berichtigung der Sie betreffenden unrichtigen Daten zu verlangen.,
+              key: -3a51d4cc
+            label: Text
+            name: '-3a51d4cc'
+            widget: text
+          - hint: >-
+              Original text: Sie haben nach Maßgabe des Art. 17 DSGVO das Recht
+              zu verlangen, dass betreffende Daten unverzüglich gelöscht werden,
+              bzw. alternativ nach Maßgabe des Art. 18 DSGVO eine Einschränkung
+              der Verarbeitung der Daten zu verlangen., key: -344b84a0
+            label: Text
+            name: '-344b84a0'
+            widget: text
+          - hint: >-
+              Original text: Sie haben das Recht zu verlangen, dass die Sie
+              betreffenden Daten, die Sie uns bereitgestellt haben nach Maßgabe
+              des Art. 20 DSGVO zu erhalten und deren Übermittlung an andere
+              Verantwortliche zu fordern., key: 504606ca
+            label: Text
+            name: 504606ca
+            widget: text
+          - hint: >-
+              Original text: Sie haben ferner gem. Art. 77 DSGVO das Recht, eine
+              Beschwerde bei der zuständigen Aufsichtsbehörde
+              einzureichen.WiderrufsrechtSie haben das Recht, erteilte
+              Einwilligungen gem. Art. 7 Abs. 3 DSGVO mit Wirkung für die
+              Zukunft zu widerrufenWiderspruchsrechtSie können der künftigen
+              Verarbeitung der Sie betreffenden Daten nach Maßgabe des Art. 21
+              DSGVO jederzeit widersprechen. Der Widerspruch kann insbesondere
+              gegen die Verarbeitung für Zwecke der Direktwerbung
+              erfolgen.Cookies und Widerspruchsrecht bei DirektwerbungAls
+              „Cookies“ werden kleine Dateien bezeichnet, die auf Rechnern der
+              Nutzer gespeichert werden. Innerhalb der Cookies können
+              unterschiedliche Angaben gespeichert werden. Ein Cookie dient
+              primär dazu, die Angaben zu einem Nutzer (bzw. dem Gerät auf dem
+              das Cookie gespeichert ist) während oder auch nach seinem Besuch
+              innerhalb eines Onlineangebotes zu speichern. Als temporäre
+              Cookies, bzw. „Session-Cookies“ oder „transiente Cookies“, werden
+              Cookies bezeichnet, die gelöscht werden, nachdem ein Nutzer ein
+              Onlineangebot verlässt und seinen Browser schließt. In einem
+              solchen Cookie kann z.B. der Inhalt eines Warenkorbs in einem
+              Onlineshop oder ein Login-Status gespeichert werden. Als
+              „permanent“ oder „persistent“ werden Cookies bezeichnet, die auch
+              nach dem Schließen des Browsers gespeichert bleiben. So kann z.B.
+              der Login-Status gespeichert werden, wenn die Nutzer diese nach
+              mehreren Tagen aufsuchen. Ebenso können in einem solchen Cookie
+              die Interessen der Nutzer gespeichert werden, die für
+              Reichweitenmessung oder Marketingzwecke verwendet werden. Als
+              „Third-Party-Cookie“ werden Cookies bezeichnet, die von anderen
+              Anbietern als dem Verantwortlichen, der das Onlineangebot
+              betreibt, angeboten werden (andernfalls, wenn es nur dessen
+              Cookies sind spricht man von „First-Party Cookies“)., key:
+              -18e93a7b
+            label: Text
+            name: '-18e93a7b'
+            widget: text
+          - hint: >-
+              Original text: Wir können temporäre und permanente Cookies
+              einsetzen und klären hierüber im Rahmen unserer
+              Datenschutzerklärung auf., key: -69ac8040
+            label: Text
+            name: '-69ac8040'
+            widget: text
+          - hint: >-
+              Original text: Falls die Nutzer nicht möchten, dass Cookies auf
+              ihrem Rechner gespeichert werden, werden sie gebeten die
+              entsprechende Option in den Systemeinstellungen ihres Browsers zu
+              deaktivieren. Gespeicherte Cookies können in den
+              Systemeinstellungen des Browsers gelöscht werden. Der Ausschluss
+              von Cookies kann zu Funktionseinschränkungen dieses
+              Onlineangebotes führen., key: 49af16a7
+            label: Text
+            name: 49af16a7
+            widget: text
+          - hint: >-
+              Original text: Ein genereller Widerspruch gegen den Einsatz der zu
+              Zwecken des Onlinemarketing eingesetzten Cookies kann bei einer
+              Vielzahl der Dienste, vor allem im Fall des Trackings, über die
+              US-amerikanische Seite , key: -39a92996
+            label: Text
+            name: '-39a92996'
+            widget: text
+          - hint: 'Original text: http://www.aboutads.info/choices/, key: 6db828dc'
+            label: Text
+            name: 6db828dc
+            widget: string
+          - hint: 'Original text:  oder die EU-Seite , key: -6097b5e9'
+            label: Text
+            name: '-6097b5e9'
+            widget: string
+          - hint: 'Original text: http://www.youronlinechoices.com/, key: d85cd59'
+            label: Text
+            name: d85cd59
+            widget: string
+          - hint: >-
+              Original text:  erklärt werden. Des Weiteren kann die Speicherung
+              von Cookies mittels deren Abschaltung in den Einstellungen des
+              Browsers erreicht werden. Bitte beachten Sie, dass dann
+              gegebenenfalls nicht alle Funktionen dieses Onlineangebotes
+              genutzt werden können.Löschung von DatenDie von uns verarbeiteten
+              Daten werden nach Maßgabe der Art. 17 und 18 DSGVO gelöscht oder
+              in ihrer Verarbeitung eingeschränkt. Sofern nicht im Rahmen dieser
+              Datenschutzerklärung ausdrücklich angegeben, werden die bei uns
+              gespeicherten Daten gelöscht, sobald sie für ihre Zweckbestimmung
+              nicht mehr erforderlich sind und der Löschung keine gesetzlichen
+              Aufbewahrungspflichten entgegenstehen. Sofern die Daten nicht
+              gelöscht werden, weil sie für andere und gesetzlich zulässige
+              Zwecke erforderlich sind, wird deren Verarbeitung eingeschränkt.
+              D.h. die Daten werden gesperrt und nicht für andere Zwecke
+              verarbeitet. Das gilt z.B. für Daten, die aus handels- oder
+              steuerrechtlichen Gründen aufbewahrt werden müssen., key: 75734695
+            label: Text
+            name: '75734695'
+            widget: text
+          - hint: >-
+              Original text: Nach gesetzlichen Vorgaben in Deutschland, erfolgt
+              die Aufbewahrung insbesondere für 10 Jahre gemäß §§ 147 Abs. 1 AO,
+              257 Abs. 1 Nr. 1 und 4, Abs. 4 HGB (Bücher, Aufzeichnungen,
+              Lageberichte, Buchungsbelege, Handelsbücher, für Besteuerung
+              relevanter Unterlagen, etc.) und 6 Jahre gemäß § 257 Abs. 1 Nr. 2
+              und 3, Abs. 4 HGB (Handelsbriefe)., key: 5bdbcdd7
+            label: Text
+            name: 5bdbcdd7
+            widget: text
+          - hint: >-
+              Original text: Nach gesetzlichen Vorgaben in Österreich erfolgt
+              die Aufbewahrung insbesondere für 7 J gemäß § 132 Abs. 1 BAO
+              (Buchhaltungsunterlagen, Belege/Rechnungen, Konten, Belege,
+              Geschäftspapiere, Aufstellung der Einnahmen und Ausgaben, etc.),
+              für 22 Jahre im Zusammenhang mit Grundstücken und für 10 Jahre bei
+              Unterlagen im Zusammenhang mit elektronisch erbrachten Leistungen,
+              Telekommunikations-, Rundfunk- und Fernsehleistungen, die an
+              Nichtunternehmer in EU-Mitgliedstaaten erbracht werden und für die
+              der Mini-One-Stop-Shop (MOSS) in Anspruch genommen
+              wird.AgenturdienstleistungenWir verarbeiten die Daten unserer
+              Kunden im Rahmen unserer vertraglichen Leistungen zu denen
+              konzeptionelle und strategische Beratung, Kampagnenplanung,
+              Software- und Designentwicklung/-beratung oder Pflege, Umsetzung
+              von Kampagnen und Prozessen/ Handling, Serveradministration,
+              Datenanalyse/ Beratungsleistungen und Schulungsleistungen
+              gehören., key: 359f9e63
+            label: Text
+            name: 359f9e63
+            widget: text
+          - hint: >-
+              Original text: Hierbei verarbeiten wir Bestandsdaten (z.B.,
+              Kundenstammdaten, wie Namen oder Adressen), Kontaktdaten (z.B.,
+              E-Mail, Telefonnummern), Inhaltsdaten (z.B., Texteingaben,
+              Fotografien, Videos), Vertragsdaten (z.B., Vertragsgegenstand,
+              Laufzeit), Zahlungsdaten (z.B., Bankverbindung, Zahlungshistorie),
+              Nutzungs- und Metadaten (z.B. im Rahmen der Auswertung und
+              Erfolgsmessung von Marketingmaßnahmen). Besondere Kategorien
+              personenbezogener Daten verarbeiten wir grundsätzlich nicht, außer
+              wenn diese Bestandteile einer beauftragten Verarbeitung sind. Zu
+              den Betroffenen gehören unsere Kunden, Interessenten sowie deren
+              Kunden, Nutzer, Websitebesucher oder Mitarbeiter sowie Dritte. Der
+              Zweck der Verarbeitung besteht in der Erbringung von
+              Vertragsleistungen, Abrechnung und unserem Kundenservice. Die
+              Rechtsgrundlagen der Verarbeitung ergeben sich aus Art. 6 Abs. 1
+              lit. b DSGVO (vertragliche Leistungen), Art. 6 Abs. 1 lit. f DSGVO
+              (Analyse, Statistik, Optimierung, Sicherheitsmaßnahmen). Wir
+              verarbeiten Daten, die zur Begründung und Erfüllung der
+              vertraglichen Leistungen erforderlich sind und weisen auf die
+              Erforderlichkeit ihrer Angabe hin. Eine Offenlegung an Externe
+              erfolgt nur, wenn sie im Rahmen eines Auftrags erforderlich ist.
+              Bei der Verarbeitung der uns im Rahmen eines Auftrags überlassenen
+              Daten handeln wir entsprechend den Weisungen der Auftraggeber
+              sowie der gesetzlichen Vorgaben einer Auftragsverarbeitung gem.
+              Art. 28 DSGVO und verarbeiten die Daten zu keinen anderen, als den
+              auftragsgemäßen Zwecken., key: -1c2903ba
+            label: Text
+            name: '-1c2903ba'
+            widget: text
+          - hint: >-
+              Original text: Wir löschen die Daten nach Ablauf gesetzlicher
+              Gewährleistungs- und vergleichbarer Pflichten. die
+              Erforderlichkeit der Aufbewahrung der Daten wird alle drei Jahre
+              überprüft; im Fall der gesetzlichen Archivierungspflichten erfolgt
+              die Löschung nach deren Ablauf (6 J, gem. § 257 Abs. 1 HGB, 10 J,
+              gem. § 147 Abs. 1 AO). Im Fall von Daten, die uns gegenüber im
+              Rahmen eines Auftrags durch den Auftraggeber offengelegt wurden,
+              löschen wir die Daten entsprechend den Vorgaben des Auftrags,
+              grundsätzlich nach Ende des Auftrags.Administration,
+              Finanzbuchhaltung, Büroorganisation, KontaktverwaltungWir
+              verarbeiten Daten im Rahmen von Verwaltungsaufgaben sowie
+              Organisation unseres Betriebs, Finanzbuchhaltung und Befolgung der
+              gesetzlichen Pflichten, wie z.B. der Archivierung. Hierbei
+              verarbeiten wir dieselben Daten, die wir im Rahmen der Erbringung
+              unserer vertraglichen Leistungen verarbeiten. Die
+              Verarbeitungsgrundlagen sind Art. 6 Abs. 1 lit. c. DSGVO, Art. 6
+              Abs. 1 lit. f. DSGVO. Von der Verarbeitung sind Kunden,
+              Interessenten, Geschäftspartner und Websitebesucher betroffen. Der
+              Zweck und unser Interesse an der Verarbeitung liegt in der
+              Administration, Finanzbuchhaltung, Büroorganisation, Archivierung
+              von Daten, also Aufgaben die der Aufrechterhaltung unserer
+              Geschäftstätigkeiten, Wahrnehmung unserer Aufgaben und Erbringung
+              unserer Leistungen dienen. Die Löschung der Daten im Hinblick auf
+              vertragliche Leistungen und die vertragliche Kommunikation
+              entspricht den, bei diesen Verarbeitungstätigkeiten genannten
+              Angaben., key: 6893b148
+            label: Text
+            name: 6893b148
+            widget: text
+          - hint: >-
+              Original text: Wir offenbaren oder übermitteln hierbei Daten an
+              die Finanzverwaltung, Berater, wie z.B., Steuerberater oder
+              Wirtschaftsprüfer sowie weitere Gebührenstellen und
+              Zahlungsdienstleister., key: -4149e9fa
+            label: Text
+            name: '-4149e9fa'
+            widget: text
+          - hint: >-
+              Original text: Ferner speichern wir auf Grundlage unserer
+              betriebswirtschaftlichen Interessen Angaben zu Lieferanten,
+              Veranstaltern und sonstigen Geschäftspartnern, z.B. zwecks
+              späterer Kontaktaufnahme. Diese mehrheitlich unternehmensbezogenen
+              Daten, speichern wir grundsätzlich dauerhaft. , key: df92d3b
+            label: Text
+            name: df92d3b
+            widget: text
+          - hint: 'Original text: P, key: 50'
+            label: Text
+            name: '50'
+            widget: string
+          - hint: 'Original text: O, key: 4f'
+            label: Text
+            name: 4f
+            widget: string
+          - hint: 'Original text: J, key: 4a'
+            label: Text
+            name: 4a
+            widget: string
+          - hint: 'Original text: 2, key: 32'
+            label: Text
+            name: '32'
+            widget: string
+          - hint: 'Original text: 0, key: 30'
+            label: Text
+            name: '30'
+            widget: string
+          - hint: 'Original text: 1, key: 31'
+            label: Text
+            name: '31'
+            widget: string
+          - hint: 'Original text: Clients & Agency Partners, key: -1dea45cc'
+            label: Text
+            name: '-1dea45cc'
+            widget: string
+          - hint: 'Original text: Services, key: 560f747e'
+            label: Text
+            name: 560f747e
+            widget: string
+          - hint: "Original text: I\_create content for a variety of purposes., key: 89fdf32"
+            label: Text
+            name: 89fdf32
+            widget: string
+          - hint: >-
+              Original text: Web Copy, Features, UX copy, Technical Articles,
+              White Papers, key: 47a623d2
+            label: Text
+            name: 47a623d2
+            widget: string
+          - hint: >-
+              Original text: Landing Page Design, A/B testing, Web Analytics,
+              Creative Concepting , key: 6ad8d1c5
+            label: Text
+            name: 6ad8d1c5
+            widget: string
+          - hint: >-
+              Original text: Newsletters, Linkedin content, and Blog Management,
+              key: -2aaceac1
+            label: Text
+            name: '-2aaceac1'
+            widget: string
+          - hint: 'Original text: Selected Works, key: -2571a243'
+            label: Text
+            name: '-2571a243'
+            widget: string
+          - hint: 'Original text: Portfolio #3, key: 356668'
+            label: Text
+            name: '356668'
+            widget: string
+          - hint: "Original text: The\_, key: 27c26f"
+            label: Text
+            name: 27c26f
+            widget: string
+          - hint: 'Original text: Projects., key: 421c16d4'
+            label: Text
+            name: 421c16d4
+            widget: string
+          - hint: 'Original text: Blog #1, key: 61f2298c'
+            label: Text
+            name: 61f2298c
+            widget: string
+          - hint: 'Original text: Colors, key: 78a3a990'
+            label: Text
+            name: 78a3a990
+            widget: string
+          - hint: 'Original text: Primaries and grays, key: -70438339'
+            label: Text
+            name: '-70438339'
+            widget: string
+          - hint: 'Original text: Accent, key: 748ca0ea'
+            label: Text
+            name: 748ca0ea
+            widget: string
+          - hint: 'Original text: Text Gray, key: 360dfd76'
+            label: Text
+            name: 360dfd76
+            widget: string
+          - hint: 'Original text: Gray 1, key: 7f9c6dd4'
+            label: Text
+            name: 7f9c6dd4
+            widget: string
+          - hint: 'Original text: Gray 2, key: 7f9c6dd5'
+            label: Text
+            name: 7f9c6dd5
+            widget: string
+          - hint: 'Original text: Gray 3, key: 7f9c6dd6'
+            label: Text
+            name: 7f9c6dd6
+            widget: string
+          - hint: 'Original text: Gray 4, key: 7f9c6dd7'
+            label: Text
+            name: 7f9c6dd7
+            widget: string
+          - hint: 'Original text: Black, key: 3d49fdf'
+            label: Text
+            name: 3d49fdf
+            widget: string
+          - hint: 'Original text: White, key: 4fadc09'
+            label: Text
+            name: 4fadc09
+            widget: string
+          - hint: >-
+              Original text: Headings, body and other common text elements, key:
+              6a37e827
+            label: Text
+            name: 6a37e827
+            widget: string
+          - hint: 'Original text: Heading One, key: 770e1708'
+            label: Text
+            name: '770e1708'
+            widget: string
+          - hint: 'Original text: Heading Two, key: 770e2aee'
+            label: Text
+            name: 770e2aee
+            widget: string
+          - hint: 'Original text: Heading Three, key: -13d79240'
+            label: Text
+            name: '-13d79240'
+            widget: string
+          - hint: 'Original text: Heading Four, key: 6ab0b8c4'
+            label: Text
+            name: 6ab0b8c4
+            widget: string
+          - hint: 'Original text: Heading Five, key: 6ab0a250'
+            label: Text
+            name: 6ab0a250
+            widget: string
+          - hint: 'Original text: Heading Six, key: 770e2584'
+            label: Text
+            name: '770e2584'
+            widget: string
+          - hint: 'Original text: This is an XX large text., key: -3a7baaa5'
+            label: Text
+            name: '-3a7baaa5'
+            widget: string
+          - hint: 'Original text: This is an extra large text., key: -69521bf3'
+            label: Text
+            name: '-69521bf3'
+            widget: string
+          - hint: 'Original text: This is a large text., key: -440d4517'
+            label: Text
+            name: '-440d4517'
+            widget: string
+          - hint: 'Original text: This is a small text., key: -1d34f44b'
+            label: Text
+            name: '-1d34f44b'
+            widget: string
+          - hint: 'Original text: [Font] Sans Serif, key: -23856063'
+            label: Text
+            name: '-23856063'
+            widget: string
+          - hint: 'Original text: [Text] Bold, key: -21265950'
+            label: Text
+            name: '-21265950'
+            widget: string
+          - hint: 'Original text: [Text] Indent Small, key: -51bc7662'
+            label: Text
+            name: '-51bc7662'
+            widget: string
+          - hint: 'Original text: [Text] Indent, key: -651501e9'
+            label: Text
+            name: '-651501e9'
+            widget: string
+          - hint: 'Original text: [Text] Indent Large, key: -5224502e'
+            label: Text
+            name: '-5224502e'
+            widget: string
+          - hint: 'Original text: [Text] Caption, key: 6f9039db'
+            label: Text
+            name: 6f9039db
+            widget: string
+          - hint: 'Original text: Text Link, key: 3610230d'
+            label: Text
+            name: 3610230d
+            widget: string
+          - hint: >-
+              Original text: Lorem ipsum dolor sit amet, consectetur adipiscing
+              elit. Suspendisse varius enim in eros elementum tristique. Duis
+              cursus, mi quis viverra ornare, eros dolor interdum nulla, ut
+              commodo diam libero vitae erat. Aenean faucibus nibh et justo
+              cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus
+              tristique posuere., key: -5286fc08
+            label: Text
+            name: '-5286fc08'
+            widget: text
+          - hint: 'Original text: What’s a Rich Text element?, key: -3c0dda4d'
+            label: Text
+            name: '-3c0dda4d'
+            widget: string
+          - hint: >-
+              Original text: The rich text element allows you to create and
+              format headings, paragraphs, blockquotes, images, and video all in
+              one place instead of having to add and format them individually.
+              Just double-click and easily create content., key: 2e633c6a
+            label: Text
+            name: 2e633c6a
+            widget: text
+          - hint: 'Original text: Static and dynamic content editing, key: 57fa6135'
+            label: Text
+            name: 57fa6135
+            widget: string
+          - hint: >-
+              Original text: A rich text element can be used with static or
+              dynamic content. For static content, just drop it into any page
+              and begin editing. For dynamic content, add a rich text field to
+              any collection and then connect a rich text element to that field
+              in the settings panel. Voila!, key: -a016b40
+            label: Text
+            name: '-a016b40'
+            widget: text
+          - hint: >-
+              Original text: How to customize formatting for each rich text,
+              key: -4bffb26e
+            label: Text
+            name: '-4bffb26e'
+            widget: string
+          - hint: >-
+              Original text: Headings, paragraphs, blockquotes, figures, images,
+              and figure captions can all be styled after a class is added to
+              the rich text element using the "When inside of" nested selector
+              system., key: -43ba1153
+            label: Text
+            name: '-43ba1153'
+            widget: text
+          - hint: 'Original text: Unordered list item, key: 89443c9'
+            label: Text
+            name: 89443c9
+            widget: string
+          - hint: 'Original text: Ordered list item, key: 3316e542'
+            label: Text
+            name: '3316e542'
+            widget: string
+          - hint: 'Original text: Icons - Social, key: -51f57aba'
+            label: Text
+            name: '-51f57aba'
+            widget: string
+          - hint: 'Original text: Common social network icons, key: 4fe28e2a'
+            label: Text
+            name: 4fe28e2a
+            widget: string
+          - hint: 'Original text: Buttons, Links, key: -30db93dc'
+            label: Text
+            name: '-30db93dc'
+            widget: string
+          - hint: >-
+              Original text: Component, text style and size variations, key:
+              -12c08cdb
+            label: Text
+            name: '-12c08cdb'
+            widget: string
+          - hint: 'Original text: Standard, key: 521782dd'
+            label: Text
+            name: 521782dd
+            widget: string
+          - hint: 'Original text: Text Inputs, key: -124363c4'
+            label: Text
+            name: '-124363c4'
+            widget: string
+          - hint: >-
+              Original text: Size and state variations for text inputs, key:
+              -5ede1d44
+            label: Text
+            name: '-5ede1d44'
+            widget: string
+          - hint: 'Original text: Label for input, key: -23e74899'
+            label: Text
+            name: '-23e74899'
+            widget: string
+          - hint: 'Original text: Selectables, key: 705546bd'
+            label: Text
+            name: 705546bd
+            widget: string
+          - hint: >-
+              Original text: Checkboxes, Radios and Select dropdowns, key:
+              783632aa
+            label: Text
+            name: 783632aa
+            widget: string
+          - hint: 'Original text: Switched off, key: 7190b2c2'
+            label: Text
+            name: 7190b2c2
+            widget: string
+          - hint: 'Original text: Switched on, key: -1d5e6dd4'
+            label: Text
+            name: '-1d5e6dd4'
+            widget: string
+          - hint: 'Original text: Unchecked, key: 9b8f2ce'
+            label: Text
+            name: 9b8f2ce
+            widget: string
+          - hint: 'Original text: Checked, key: -70889879'
+            label: Text
+            name: '-70889879'
+            widget: string
+          - hint: 'Original text: Radio, key: 4b123db'
+            label: Text
+            name: 4b123db
+            widget: string
+          - hint: 'Original text: Standard..., key: 1e066671'
+            label: Text
+            name: '1e066671'
+            widget: string
+          - hint: 'Original text: First Choice, key: -491b32af'
+            label: Text
+            name: '-491b32af'
+            widget: string
+          - hint: 'Original text: Second Choice, key: 3c4172cd'
+            label: Text
+            name: 3c4172cd
+            widget: string
+          - hint: 'Original text: Third Choice, key: -1b351146'
+            label: Text
+            name: '-1b351146'
+            widget: string
+          - hint: 'Original text: Legal Notice, key: 79a50a5f'
+            label: Text
+            name: 79a50a5f
+            widget: string
+          - hint: 'Original text: c., key: c2b'
+            label: Text
+            name: c2b
+            widget: string
+          - hint: 'Original text: Court of Registration:, key: -7283e1f3'
+            label: Text
+            name: '-7283e1f3'
+            widget: string
+          - hint: 'Original text: London City, key: 16861a73'
+            label: Text
+            name: 16861a73
+            widget: string
+          - hint: 'Original text: Registry number:, key: -4958eeb2'
+            label: Text
+            name: '-4958eeb2'
+            widget: string
+          - hint: 'Original text: LND 2345678, key: -5072f549'
+            label: Text
+            name: '-5072f549'
+            widget: string
+          - hint: 'Original text: Images: Freepik, Unsplash, key: -3d5c4824'
+            label: Text
+            name: '-3d5c4824'
+            widget: string
+          - hint: >-
+              Original text: Typeface: Wremena, Rosseta & system font, key:
+              fd32c6f
+            label: Text
+            name: fd32c6f
+            widget: string
+          - hint: 'Original text: Website Terms and Conditions of Use, key: -6e739041'
+            label: Text
+            name: '-6e739041'
+            widget: string
+          - hint: 'Original text: 1. Terms, key: -611d565c'
+            label: Text
+            name: '-611d565c'
+            widget: string
+          - hint: >-
+              Original text: By accessing this Website, accessible from
+              www.naomi.com, you are agreeing to be bound by these Website Terms
+              and Conditions of Use and agree that you are responsible for the
+              agreement with any applicable local laws. If you disagree with any
+              of these terms, you are prohibited from accessing this site. The
+              materials contained in this Website are protected by copyright and
+              trade mark law., key: -3fdb0355
+            label: Text
+            name: '-3fdb0355'
+            widget: text
+          - hint: 'Original text: 2. Use License, key: 44ce684'
+            label: Text
+            name: 44ce684
+            widget: string
+          - hint: >-
+              Original text: Permission is granted to temporarily download one
+              copy of the materials on Naomi Studio's Website for personal,
+              non-commercial transitory viewing only. This is the grant of a
+              license, not a transfer of title, and under this license you may
+              not:, key: 6e01deee
+            label: Text
+            name: 6e01deee
+            widget: text
+          - hint: 'Original text: modify or copy the materials;, key: -303efaee'
+            label: Text
+            name: '-303efaee'
+            widget: string
+          - hint: >-
+              Original text: use the materials for any commercial purpose or for
+              any public display;, key: -5445b867
+            label: Text
+            name: '-5445b867'
+            widget: string
+          - hint: >-
+              Original text: attempt to reverse engineer any software contained
+              on Naomi Studio's Website;, key: -7926913a
+            label: Text
+            name: '-7926913a'
+            widget: string
+          - hint: >-
+              Original text: remove any copyright or other proprietary notations
+              from the materials; or, key: -676b4fbd
+            label: Text
+            name: '-676b4fbd'
+            widget: string
+          - hint: >-
+              Original text: transferring the materials to another person or
+              "mirror" the materials on any other server., key: -289bd784
+            label: Text
+            name: '-289bd784'
+            widget: text
+          - hint: >-
+              Original text: This will let Naomi Studio to terminate upon
+              violations of any of these restrictions. Upon termination, your
+              viewing right will also be terminated and you should destroy any
+              downloaded materials in your possession whether it is printed or
+              electronic format. These Terms of Service has been created with
+              the help of the , key: 234eabda
+            label: Text
+            name: 234eabda
+            widget: text
+          - hint: 'Original text: Terms Of Service Generator, key: 75653218'
+            label: Text
+            name: '75653218'
+            widget: string
+          - hint: 'Original text: 3. Disclaimer, key: 1333aca0'
+            label: Text
+            name: 1333aca0
+            widget: string
+          - hint: >-
+              Original text: All the materials on Naomi Studio’s Website are
+              provided "as is". Naomi Studio makes no warranties, may it be
+              expressed or implied, therefore negates all other warranties.
+              Furthermore, Naomi Studio does not make any representations
+              concerning the accuracy or reliability of the use of the materials
+              on its Website or otherwise relating to such materials or any
+              sites linked to this Website., key: -29f55b22
+            label: Text
+            name: '-29f55b22'
+            widget: text
+          - hint: 'Original text: 4. Limitations, key: 79bcead3'
+            label: Text
+            name: 79bcead3
+            widget: string
+          - hint: >-
+              Original text: Naomi Studio or its suppliers will not be hold
+              accountable for any damages that will arise with the use or
+              inability to use the materials on Naomi Studio’s Website, even if
+              Naomi Studio or an authorize representative of this Website has
+              been notified, orally or written, of the possibility of such
+              damage. Some jurisdiction does not allow limitations on implied
+              warranties or limitations of liability for incidental damages,
+              these limitations may not apply to you., key: 6a017259
+            label: Text
+            name: 6a017259
+            widget: text
+          - hint: 'Original text: 5. Revisions and Errata, key: -3f08c9ff'
+            label: Text
+            name: '-3f08c9ff'
+            widget: string
+          - hint: >-
+              Original text: The materials appearing on Naomi Studio’s Website
+              may include technical, typographical, or photographic errors.
+              Naomi Studio will not promise that any of the materials in this
+              Website are accurate, complete, or current. Naomi Studio may
+              change the materials contained on its Website at any time without
+              notice. Naomi Studio does not make any commitment to update the
+              materials., key: -68860480
+            label: Text
+            name: '-68860480'
+            widget: text
+          - hint: 'Original text: 6. Links, key: -5a266fcf'
+            label: Text
+            name: '-5a266fcf'
+            widget: string
+          - hint: >-
+              Original text: Naomi Studio has not reviewed all of the sites
+              linked to its Website and is not responsible for the contents of
+              any such linked site. The presence of any link does not imply
+              endorsement by Naomi Studio of the site. The use of any linked
+              website is at the user’s own risk., key: -50f86e3
+            label: Text
+            name: '-50f86e3'
+            widget: text
+          - hint: 'Original text: 7. Site Terms of Use Modifications, key: 49410d5e'
+            label: Text
+            name: 49410d5e
+            widget: string
+          - hint: >-
+              Original text: Naomi Studio may revise these Terms of Use for its
+              Website at any time without prior notice. By using this Website,
+              you are agreeing to be bound by the current version of these Terms
+              and Conditions of Use., key: 72ad814d
+            label: Text
+            name: 72ad814d
+            widget: text
+          - hint: 'Original text: 8. Your Privacy, key: 42cfc185'
+            label: Text
+            name: 42cfc185
+            widget: string
+          - hint: 'Original text: Please read our Privacy Policy., key: 1dd9b95c'
+            label: Text
+            name: 1dd9b95c
+            widget: string
+          - hint: 'Original text: 9. Governing Law, key: 367b7ce6'
+            label: Text
+            name: 367b7ce6
+            widget: string
+          - hint: >-
+              Original text: Any claim related to Naomi Studio's Website shall
+              be governed by the laws of gb without regards to its conflict of
+              law provisions., key: 4d844439
+            label: Text
+            name: 4d844439
+            widget: text
+          - hint: "Original text: WILL\_RESPOND\_, key: -40fb9827"
+            label: Text
+            name: '-40fb9827'
+            widget: string
+          - hint: 'Original text: QUICKLY!, key: -10e9f4b9'
+            label: Text
+            name: '-10e9f4b9'
+            widget: string
+          - hint: 'Original text: Please button for website., key: 2c96a582'
+            label: Text
+            name: 2c96a582
+            widget: string
+      - label: Links
+        name: links
+        file: cms/_data/links.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Links
+          - hint: 'Original link: /, key: 2f'
+            label: Link
+            name: 2f
+            widget: string
+          - hint: 'Original link: /about/about-3, key: -7c2fe5e'
+            label: Link
+            name: '-7c2fe5e'
+            widget: string
+          - hint: 'Original link: /portfolio/portfolio-1, key: -60cd2e2a'
+            label: Link
+            name: '-60cd2e2a'
+            widget: string
+          - hint: 'Original link: /blog/blog-1, key: -eef97bc'
+            label: Link
+            name: '-eef97bc'
+            widget: string
+          - hint: 'Original link: /contact/contact-3, key: -628c99b8'
+            label: Link
+            name: '-628c99b8'
+            widget: string
+          - hint: >-
+              Original link: https://www.instagram.com/damurphy_/, key:
+              -3e1c1f4c
+            label: Link
+            name: '-3e1c1f4c'
+            widget: string
+          - hint: >-
+              Original link: https://www.linkedin.com/in/alan-murphy-/, key:
+              -50706c4
+            label: Link
+            name: '-50706c4'
+            widget: string
+          - hint: 'Original link: #, key: 23'
+            label: Link
+            name: '23'
+            widget: string
+          - hint: >-
+              Original link: https://portfolio1992.webflow.io/project/westbury,
+              key: -6acb7738
+            label: Link
+            name: '-6acb7738'
+            widget: string
+          - hint: >-
+              Original link:
+              https://portfolio1992.webflow.io/post/zero-trust-networking, key:
+              -348f56d8
+            label: Link
+            name: '-348f56d8'
+            widget: string
+          - hint: >-
+              Original link:
+              https://portfolio1992.webflow.io/post/data-warehouse-transformation,
+              key: -2fcb76d0
+            label: Link
+            name: '-2fcb76d0'
+            widget: string
+          - hint: 'Original link: mailto:Murphy@pbranding.de, key: -4e7b31b'
+            label: Link
+            name: '-4e7b31b'
+            widget: string
+          - hint: 'Original link: tel:+4915259006920, key: 29aaf5c2'
+            label: Link
+            name: 29aaf5c2
+            widget: string
+          - hint: 'Original link: /template/licensing, key: fcd47d8'
+            label: Link
+            name: fcd47d8
+            widget: string
+          - hint: 'Original link: tel:+441823045923, key: -27608663'
+            label: Link
+            name: '-27608663'
+            widget: string
+          - hint: 'Original link: mailto:studio@naomi.com, key: 220b8869'
+            label: Link
+            name: 220b8869
+            widget: string
+          - hint: 'Original link: https://maps.google.com/, key: 5b46455b'
+            label: Link
+            name: 5b46455b
+            widget: string
+          - hint: >-
+              Original link: https://louis-template.webflow.io/#about, key:
+              -7d89e34d
+            label: Link
+            name: '-7d89e34d'
+            widget: string
+          - hint: >-
+              Original link: https://louis-template.webflow.io/#works, key:
+              -7c4deb58
+            label: Link
+            name: '-7c4deb58'
+            widget: string
+          - hint: >-
+              Original link: https://louis-template.webflow.io/#blog, key:
+              464679bc
+            label: Link
+            name: 464679bc
+            widget: string
+          - hint: >-
+              Original link: https://louis-template.webflow.io/#contact, key:
+              3d4e6bc6
+            label: Link
+            name: 3d4e6bc6
+            widget: string
+          - hint: 'Original link: https://www.instagram.com, key: -7e255c1'
+            label: Link
+            name: '-7e255c1'
+            widget: string
+          - hint: 'Original link: https://www.twitter.com, key: -1ec30500'
+            label: Link
+            name: '-1ec30500'
+            widget: string
+          - hint: 'Original link: https://www.dribbble.com, key: -7dd56147'
+            label: Link
+            name: '-7dd56147'
+            widget: string
+          - hint: >-
+              Original link:
+              https://webflow.com/templates/html/louis-portfolio-website-template,
+              key: 49f94527
+            label: Link
+            name: 49f94527
+            widget: string
+          - hint: 'Original link: tel:+481823045923, key: 2c3244a1'
+            label: Link
+            name: 2c3244a1
+            widget: string
+          - hint: 'Original link: mailto:studio@template.com, key: fe9f32f'
+            label: Link
+            name: fe9f32f
+            widget: string
+          - hint: 'Original link: /about/about-2, key: -7c2fe5f'
+            label: Link
+            name: '-7c2fe5f'
+            widget: string
+          - hint: 'Original link: /portfolio/portfolio-2, key: -60cd2e29'
+            label: Link
+            name: '-60cd2e29'
+            widget: string
+          - hint: 'Original link: https://www.webflow.com/, key: -9e04180'
+            label: Link
+            name: '-9e04180'
+            widget: string
+          - hint: 'Original link: https://www.fouroom.co/, key: 462d5df6'
+            label: Link
+            name: 462d5df6
+            widget: string
+          - hint: 'Original link: /terms, key: 56c60eb8'
+            label: Link
+            name: 56c60eb8
+            widget: string
+          - hint: 'Original link: /template/getting-started, key: -3038a16e'
+            label: Link
+            name: '-3038a16e'
+            widget: string
+          - hint: 'Original link: /template/style-guide, key: 2468f87a'
+            label: Link
+            name: 2468f87a
+            widget: string
+          - hint: 'Original link: /template/changelog, key: 16aa64ae'
+            label: Link
+            name: 16aa64ae
+            widget: string
+          - hint: >-
+              Original link:
+              https://www.google.com/maps/place/An+d.+Industriebahn+12-16,+13088+Berlin/@52.5635716,13.4586349,17z/data=!3m1!4b1!4m5!3m4!1s0x47a84dbe0b354c39:0x29dd9e78ca4d411d!8m2!3d52.5635716!4d13.4608236,
+              key: 69ab0863
+            label: Link
+            name: 69ab0863
+            widget: string
+          - hint: >-
+              Original link: https://louis-template.webflow.io/#home, key:
+              46493ef9
+            label: Link
+            name: 46493ef9
+            widget: string
+          - hint: 'Original link: https://www.twitter.com/, key: 4662652f'
+            label: Link
+            name: 4662652f
+            widget: string
+          - hint: 'Original link: https://www.dribbble.com/, key: -3cd6c76a'
+            label: Link
+            name: '-3cd6c76a'
+            widget: string
+          - hint: 'Original link: https://www.behance.com/, key: 5f3000ee'
+            label: Link
+            name: 5f3000ee
+            widget: string
+          - hint: 'Original link: https://www.instagram.com/, key: b979dd0'
+            label: Link
+            name: b979dd0
+            widget: string
+          - hint: 'Original link: https://www.fouroom.com/, key: 7f7e687b'
+            label: Link
+            name: 7f7e687b
+            widget: string
+          - hint: 'Original link: https://www.fouroom.co, key: 655c4d59'
+            label: Link
+            name: 655c4d59
+            widget: string
+          - hint: 'Original link: mailto:hello@andportfolio.co, key: 694ef3b3'
+            label: Link
+            name: 694ef3b3
+            widget: string
+          - hint: 'Original link: https://www.instagram.com/damurphy_, key: 2f8b7adb'
+            label: Link
+            name: 2f8b7adb
+            widget: string
+          - hint: 'Original link: https://university.webflow.com/, key: 76a31a6b'
+            label: Link
+            name: 76a31a6b
+            widget: string
+          - hint: 'Original link: /about/about-1, key: -7c2fe60'
+            label: Link
+            name: '-7c2fe60'
+            widget: string
+          - hint: 'Original link: /home/home-1, key: 5d641e64'
+            label: Link
+            name: 5d641e64
+            widget: string
+          - hint: 'Original link: /home/home-2, key: 5d641e65'
+            label: Link
+            name: 5d641e65
+            widget: string
+          - hint: 'Original link: /home/home-3, key: 5d641e66'
+            label: Link
+            name: 5d641e66
+            widget: string
+          - hint: 'Original link: /contact/contact-1, key: -628c99ba'
+            label: Link
+            name: '-628c99ba'
+            widget: string
+          - hint: 'Original link: /contact/contact-2, key: -628c99b9'
+            label: Link
+            name: '-628c99b9'
+            widget: string
+          - hint: 'Original link: /portfolio/portfolio-3, key: -60cd2e28'
+            label: Link
+            name: '-60cd2e28'
+            widget: string
+          - hint: 'Original link: /blog/blog-2, key: -eef97bb'
+            label: Link
+            name: '-eef97bb'
+            widget: string
+          - hint: 'Original link: /blog/blog-3, key: -eef97ba'
+            label: Link
+            name: '-eef97ba'
+            widget: string
+          - hint: 'Original link: https://www.alexandermain.com/, key: 7ea1683'
+            label: Link
+            name: 7ea1683
+            widget: string
+          - hint: >-
+              Original link:
+              https://typefaces.temporarystate.net/preview/Wremena, key:
+              -69820ff1
+            label: Link
+            name: '-69820ff1'
+            widget: string
+          - hint: 'Original link: https://fontesk.com/rosseta-font/, key: 7eeaa9eb'
+            label: Link
+            name: 7eeaa9eb
+            widget: string
+          - hint: 'Original link: http://www.aboutads.info/choices/, key: 6db828dc'
+            label: Link
+            name: 6db828dc
+            widget: string
+          - hint: 'Original link: http://www.youronlinechoices.com/, key: d85cd59'
+            label: Link
+            name: d85cd59
+            widget: string
+          - hint: >-
+              Original link: https://www.termsofservicegenerator.net/, key:
+              5dc4634a
+            label: Link
+            name: 5dc4634a
+            widget: string
+      - label: Images
+        name: images
+        file: cms/_data/images.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Images
+          - label: Image
+            name: i3f014219
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 2dcab44e
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-349cd079'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-25ba3ee3'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-25c85664'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-25ac2762'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 356f3bf7
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 6cbbc12a
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 3d4e79eb
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 1f71267b
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-7b78570f'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-474e83f9'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: c4738b3
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-2027d5cf'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-3f014219'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '14050243'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-6cd59630'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 75602b47
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 6ec526cf
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 6e9ae04c
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-2573c95e'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-258ff860'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-2581e0df'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 626df2aa
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 2f73010c
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 79f0c59a
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 5750fb91
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 576d2a93
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-4dc155be'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-4dcf6d3f'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 17ca5a03
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 4d253b6b
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 61e3a78c
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 718e1f0c
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 35c9c100
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 11f6246a
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 5c3679f
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 55100cba
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 1fcbe945
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '5742e410'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 575f1312
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 65909da
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-28c60262'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-7ffa1f3e'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 388c9a3d
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 42f24a21
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-6620c924'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 5deb380
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-621a1cf'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 6eb70f4e
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 5b30fad0
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-437c6891'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 6b4deca4
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-57700cb8'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-335f76bd'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 6b7c5ca7
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 2df325e2
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 2e68c606
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 10c19b0f
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-3bbc1a8d'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 721437ae
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-78cfb12e'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-2c992bb3'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 4a1cb831
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 28fdfd7b
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 334fc6df
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-75af65e6'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-9c3cfc2'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-145cc947'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-46d76663'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-31e9b8eb'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-6efd4f8c'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 53ef19d3
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-28d82b89'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 7543fc45
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: a674071
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 755213c6
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-2891b604'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-28f45a8b'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-28ca1408'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-28bbfc87'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-28ade506'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 4ff2e72
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-1c7f6dae'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-101622da'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+publish_mode: editorial_workflow
